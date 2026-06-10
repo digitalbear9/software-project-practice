@@ -1,6 +1,6 @@
-```python
-#1 Notebook基本概念
-```
+# Jupyter Notebook基础教程
+
+#### 1、Notebook基本概念
 
 
 ```python
@@ -8,7 +8,7 @@ print('Hello World!')
 ```
 
     Hello World!
-    
+
 
 
 ```python
@@ -31,12 +31,10 @@ print('%d squared is %d' % (x, y))
 ```
 
     7 squared is 49
-    
 
 
-```python
-#2 熟悉基本的Python语法
-```
+
+#### 2、熟悉基本的Python语法
 
 
 ```python
@@ -77,15 +75,15 @@ test()
 ```
 
     请输入要排序的数据，用空格分隔： 64 25 12 22 11
-    
+
 
     排序后的结果为： [11, 12, 22, 25, 64]
-    
 
 
-```python
-#3 数据分析
-```
+
+#### 3、数据分析
+
+##### 设置：
 
 
 ```python
@@ -99,6 +97,8 @@ import seaborn as sns
 ```python
 df = pd.read_csv(r"E:\backup\大学课程文件\2025-2026第二学期\软件项目研发实践\实验三\fortune500.csv")
 ```
+
+##### 检查数据集：
 
 
 ```python
@@ -117,7 +117,7 @@ df.head()
     .dataframe tbody tr th {
         vertical-align: top;
     }
-
+    
     .dataframe thead th {
         text-align: right;
     }
@@ -197,7 +197,7 @@ df.tail()
     .dataframe tbody tr th {
         vertical-align: top;
     }
-
+    
     .dataframe thead th {
         text-align: right;
     }
@@ -312,7 +312,7 @@ df.loc[non_numberic_profits].head()
     .dataframe tbody tr th {
         vertical-align: top;
     }
-
+    
     .dataframe thead th {
         text-align: right;
     }
@@ -393,9 +393,9 @@ bin_sizes, _, _ = plt.hist(df.year[non_numberic_profits], bins=range(1955, 2006)
 ```
 
 
-    
-![png](output_17_0.png)
-    
+​    
+![output_1](shotscreens\output_1.png)
+​    
 
 
 
@@ -433,10 +433,7 @@ df.dtypes
 
 
 
-
-```python
-#4 数据图形绘制
-```
+#### 4、数据图形绘制
 
 
 ```python
@@ -458,8 +455,7 @@ plot(x, y1, ax, 'Increase in mean Fortune 500 company profits from 1955 to 2005'
 ```
 
 
-    
-![png](output_23_0.png)
+![output_2](shotscreens\output_2.png)
     
 
 
@@ -471,8 +467,7 @@ plot(x, y2, ax, 'Increase in mean Fortune 500 company revenues from 1955 to 2005
 ```
 
 
-    
-![png](output_24_0.png)
+![output_3](shotscreens\output_3.png)
     
 
 
@@ -492,8 +487,7 @@ fig.tight_layout()
 ```
 
 
-    
-![png](output_25_0.png)
+![output_4](shotscreens\output_4.png)
     
 
 
@@ -541,7 +535,6 @@ plt.show()
 ```
 
 
-    
-![png](output_26_0.png)
+![output_5](shotscreens\output_5.png)
     
 
