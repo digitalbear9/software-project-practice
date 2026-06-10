@@ -8,7 +8,7 @@ TensorFlow Lite Model Maker由于依赖库与新版本的Python不兼容的问�
 
 #### 1、安装依赖
 
-![dependencies](shotscreens\dependencies.png)
+<img src="shotscreens\dependencies.png" alt="dependencies" style="zoom:50%;" />
 
 #### 2、导入库并设置参数
 
