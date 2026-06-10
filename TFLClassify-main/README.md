@@ -1,38 +1,40 @@
-### 一、编译运行并成功解决生成项目中的错误
+# 基于TensorFlow Lite实现的Android花卉识别应用
+
+#### 一、编译运行并成功解决生成项目中的错误
 
 启动finish模块中的MainActivity.kt：
 
-![image-20260531202040076](C:\Users\digetal-bear\AppData\Roaming\Typora\typora-user-images\image-20260531202040076.png)
+<img src="shotscreens\compile_and_run.png" alt="compile_and_run" style="zoom:50%;" />
 
-### 二、完成start模块中的TODO代码项并导入已有的Tensorflow Lite模型
+#### 二、完成start模块中的TODO代码项并导入已有的Tensorflow Lite模型
 
-![image-20260531204110853](C:\Users\digetal-bear\AppData\Roaming\Typora\typora-user-images\image-20260531204110853.png)
+<img src="shotscreens\TODO_Code_1.png" alt="TODO_Code_1" style="zoom:50%;" />
 
-![image-20260531204154005](C:\Users\digetal-bear\AppData\Roaming\Typora\typora-user-images\image-20260531204154005.png)
+<img src="shotscreens\TODO_Code_2.png" alt="TODO_Code_2" style="zoom:50%;" />
 
-![image-20260531204208542](C:\Users\digetal-bear\AppData\Roaming\Typora\typora-user-images\image-20260531204208542.png)
+<img src="shotscreens\Tensorflow_Lite_Model.png" alt="Tensorflow_Lite_Model" style="zoom:50%;" />
 
 ### 三、在真机(OPPO)上运行start模块后的识别花朵的结果
 
 dandelion:
 
-![dandelion](E:\backup\大学课程文件\2025-2026第二学期\软件项目研发实践\实验四\dandelion.jpg)
+<img src="shotscreens\dandelion.jpg" alt="dandelion" style="zoom: 33%;" />
 
 daisy:
 
-![daisy](E:\backup\大学课程文件\2025-2026第二学期\软件项目研发实践\实验四\daisy.jpg)
+<img src="shotscreens\daisy.jpg" alt="daisy" style="zoom: 33%;" />
 
 sunflowers：
 
-![sunflowers](E:\backup\大学课程文件\2025-2026第二学期\软件项目研发实践\实验四\sunflowers.jpg)
+<img src="shotscreens\sunflowers.jpg" alt="sunflowers" style="zoom: 33%;" />
 
 roses:
 
-![roses](E:\backup\大学课程文件\2025-2026第二学期\软件项目研发实践\实验四\roses.jpg)
+<img src="shotscreens\roses.jpg" alt="roses" style="zoom: 33%;" />
 
 tulips:
 
-![tulips](E:\backup\大学课程文件\2025-2026第二学期\软件项目研发实践\实验四\tulips.jpg)
+<img src="shotscreens\roses.jpg" alt="roses" style="zoom: 33%;" />
 
 ### 四、扩展实验
 
@@ -152,20 +154,20 @@ override fun analyze(imageProxy: ImageProxy) {
 
 rose:
 
-![rose_extend](E:\backup\大学课程文件\2025-2026第二学期\软件项目研发实践\实验四\rose_extend.jpg)
+<img src="shotscreens\rose_extend.jpg" alt="rose_extend" style="zoom: 33%;" />
 
 dandelion:
 
-![dandelion_extend](E:\backup\大学课程文件\2025-2026第二学期\软件项目研发实践\实验四\dandelion_extend.jpg)
+<img src="shotscreens\dandelion_extend.jpg" alt="dandelion_extend" style="zoom: 33%;" />
 
 tulip:
 
-![tulip_extend](E:\backup\大学课程文件\2025-2026第二学期\软件项目研发实践\实验四\tulip_extend.jpg)
+<img src="shotscreens\tulip_extend.jpg" alt="tulip_extend" style="zoom: 33%;" />
 
 sunflowers:
 
-![sunflowers_extend](E:\backup\大学课程文件\2025-2026第二学期\软件项目研发实践\实验四\sunflowers_extend.jpg)
+<img src="shotscreens\sunflowers_extend.jpg" alt="sunflowers_extend" style="zoom: 33%;" />
 
 daisy:
 
-![daisy_extend](E:\backup\大学课程文件\2025-2026第二学期\软件项目研发实践\实验四\daisy_extend.jpg)
+<img src="shotscreens\daisy_extend.jpg" alt="daisy_extend" style="zoom: 33%;" />
