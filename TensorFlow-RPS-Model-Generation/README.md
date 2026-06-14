@@ -124,38 +124,33 @@ for img_path in next_rock + next_paper + next_scissors:
     plt.show()
 ```
 
-
 <img src="shotscreens\output_3_0.png" alt="output_3_0"  />
     
 
 
 
+<img src="shotscreens\output_3_1.png" alt="output_3_1"  />
+    
 
-![output_3_1](shotscreens\output_3_1.png)
+
+
+<img src="shotscreens\output_3_2.png" alt="output_3_2"  />
+    
+
+
+
+<img src="shotscreens\output_3_3.png" alt="output_3_3"  />
+    
+
+
+
+<img src="shotscreens\output_3_4.png" alt="output_3_4"  />
     
 
 
 
 
-![output_3_2](shotscreens\output_3_2.png)
-    
-
-
-
-
-![output_3_3](shotscreens\output_3_3.png)
-    
-
-
-
-
-![output_3_4](shotscreens\output_3_4.png)
-    
-
-
-
-
-![output_3_5](shotscreens\output_3_5.png)
+<img src="shotscreens\output_3_5.png" alt="output_3_5"  />
     
 
 
