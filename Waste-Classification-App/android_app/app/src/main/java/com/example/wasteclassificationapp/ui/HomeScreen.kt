@@ -40,7 +40,8 @@ fun HomeScreen(
     onOpenReminderSetting: () -> Unit,
     onOpenBarcodeScan: () -> Unit,
     onOpenModelEvaluation: () -> Unit,
-    onOpenOptimizationSamples: () -> Unit
+    onOpenOptimizationSamples: () -> Unit,
+    onOpenMultiObject: () -> Unit,
 ){
     Column(
         modifier = Modifier
@@ -99,6 +100,15 @@ fun HomeScreen(
             modifier = Modifier.fillMaxWidth()
         ) {
             Text("实时识别")
+        }
+
+        Spacer(modifier = Modifier.height(12.dp))
+
+        OutlinedButton(
+            onClick = onOpenMultiObject,
+            modifier = Modifier.fillMaxWidth()
+        ) {
+            Text("多目标识别")
         }
 
         Spacer(modifier = Modifier.height(12.dp))

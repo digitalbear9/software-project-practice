@@ -50,7 +50,7 @@ import com.example.wasteclassificationapp.ui.ModelEvaluationScreen
 import com.example.wasteclassificationapp.model.OptimizationSample
 import com.example.wasteclassificationapp.model.OptimizationSampleRepository
 import com.example.wasteclassificationapp.ui.OptimizationSampleScreen
-
+import com.example.wasteclassificationapp.ui.MultiObjectDetectionScreen
 
 class MainActivity : ComponentActivity() {
 
@@ -133,6 +133,9 @@ class MainActivity : ComponentActivity() {
                                 },
                                 onOpenRealTime = {
                                     currentScreen = AppScreen.REAL_TIME
+                                },
+                                onOpenMultiObject = {
+                                    currentScreen = AppScreen.MULTI_OBJECT
                                 },
                                 onOpenBarcodeScan = {
                                     currentScreen = AppScreen.BARCODE_SCAN
@@ -335,6 +338,17 @@ class MainActivity : ComponentActivity() {
                             RealTimeScreen(
                                 lifecycleOwner = this@MainActivity,
                                 onAnalyzeBitmap = { bitmap ->
+                                    classifier.classify(bitmap)
+                                },
+                                onBackHome = {
+                                    currentScreen = AppScreen.HOME
+                                }
+                            )
+                        }
+
+                        AppScreen.MULTI_OBJECT -> {
+                            MultiObjectDetectionScreen(
+                                onClassifyBitmap = { bitmap ->
                                     classifier.classify(bitmap)
                                 },
                                 onBackHome = {
@@ -589,6 +603,7 @@ enum class AppScreen {
     HOME,
     CAMERA,
     REAL_TIME,
+    MULTI_OBJECT,
     BARCODE_SCAN,
     SEARCH,
     MISTAKE,
