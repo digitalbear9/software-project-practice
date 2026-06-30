@@ -26,13 +26,14 @@ fun HomeScreen(
     onOpenRealTime: () -> Unit,
     onOpenSearch: () -> Unit,
     onOpenMistake: () -> Unit,
+    onOpenDisposalPoint: () -> Unit,
     onOpenHistory: () -> Unit,
     onOpenStatistics: () -> Unit,
     onOpenKnowledge: () -> Unit,
     onOpenFeedback: () -> Unit,
     onOpenModelSetting: () -> Unit,
     onOpenAssistant: () -> Unit
-) {
+){
     Column(
         modifier = Modifier
             .fillMaxSize()
@@ -108,6 +109,15 @@ fun HomeScreen(
             modifier = Modifier.fillMaxWidth()
         ) {
             Text("易错垃圾")
+        }
+
+        Spacer(modifier = Modifier.height(12.dp))
+
+        OutlinedButton(
+            onClick = onOpenDisposalPoint,
+            modifier = Modifier.fillMaxWidth()
+        ) {
+            Text("校园投放点")
         }
 
         Spacer(modifier = Modifier.height(12.dp))
