@@ -9,9 +9,9 @@ import java.nio.ByteOrder
 import java.nio.channels.FileChannel
 
 class ImageClassifier(
-    private val context: Context
+    private val context: Context,
+    private val modelFileName: String
 ) {
-    private val modelFileName = "waste_classification_mobilenetv2_v1_float32.tflite"
     private val labelsFileName = "labels.txt"
 
     private val imageSize = 224

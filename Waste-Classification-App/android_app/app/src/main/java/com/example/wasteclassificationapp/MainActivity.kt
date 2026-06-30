@@ -8,14 +8,15 @@ import androidx.compose.material3.Surface
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.setValue
+import com.example.wasteclassificationapp.data.FeedbackEntity
+import com.example.wasteclassificationapp.data.HistoryEntity
 import com.example.wasteclassificationapp.ml.ImageClassifier
 import com.example.wasteclassificationapp.ml.RecognitionResult
-import com.example.wasteclassificationapp.model.FeedbackRecord
-import com.example.wasteclassificationapp.model.HistoryRecord
 import com.example.wasteclassificationapp.ui.CameraScreen
 import com.example.wasteclassificationapp.ui.HistoryScreen
 import com.example.wasteclassificationapp.ui.HomeScreen
 import com.example.wasteclassificationapp.ui.KnowledgeScreen
+import com.example.wasteclassificationapp.ui.ModelSettingScreen
 import com.example.wasteclassificationapp.ui.ResultScreen
 import java.text.SimpleDateFormat
 import java.util.Date
@@ -28,13 +29,19 @@ class MainActivity : ComponentActivity() {
     private var currentScreen by mutableStateOf(AppScreen.HOME)
     private var latestResult by mutableStateOf<RecognitionResult?>(null)
 
-    private var historyList by mutableStateOf<List<HistoryRecord>>(emptyList())
-    private var feedbackList by mutableStateOf<List<FeedbackRecord>>(emptyList())
+    private var historyList by mutableStateOf<List<HistoryEntity>>(emptyList())
+    private var feedbackList by mutableStateOf<List<FeedbackEntity>>(emptyList())
+
+    private var currentModelFileName by mutableStateOf(
+        "waste_classification_mobilenetv2_v1_float32.tflite"
+    )
+
+    private var currentModelName by mutableStateOf("Float32")
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
 
-        classifier = ImageClassifier(this)
+        classifier = ImageClassifier(this, currentModelFileName)
 
         setContent {
             MaterialTheme {
@@ -50,6 +57,9 @@ class MainActivity : ComponentActivity() {
                                 },
                                 onOpenKnowledge = {
                                     currentScreen = AppScreen.KNOWLEDGE
+                                },
+                                onOpenModelSetting = {
+                                    currentScreen = AppScreen.MODEL_SETTING
                                 }
                             )
                         }
@@ -121,26 +131,60 @@ class MainActivity : ComponentActivity() {
                                 }
                             )
                         }
+
+                        AppScreen.MODEL_SETTING -> {
+                            ModelSettingScreen(
+                                currentModelName = currentModelName,
+                                onUseFloat32Model = {
+                                    switchModel(
+                                        modelFileName = "waste_classification_mobilenetv2_v1_float32.tflite",
+                                        modelName = "Float32"
+                                    )
+                                },
+                                onUseDynamicRangeModel = {
+                                    switchModel(
+                                        modelFileName = "waste_classification_mobilenetv2_v1_dynamic_range.tflite",
+                                        modelName = "Dynamic Range"
+                                    )
+                                },
+                                onBackHome = {
+                                    currentScreen = AppScreen.HOME
+                                }
+                            )
+                        }
                     }
                 }
             }
         }
     }
 
+    private fun switchModel(
+        modelFileName: String,
+        modelName: String
+    ) {
+        if (::classifier.isInitialized) {
+            classifier.close()
+        }
+
+        currentModelFileName = modelFileName
+        currentModelName = modelName
+
+        classifier = ImageClassifier(this, currentModelFileName)
+    }
+
     private fun addHistory(
         result: RecognitionResult,
         source: String
     ) {
-        val timeText = getCurrentTimeText()
-
-        val record = HistoryRecord(
-            timeText = timeText,
+        val record = HistoryEntity(
+            timeText = getCurrentTimeText(),
             source = source,
             label = result.label,
             labelCn = result.labelCn,
             wasteCategory = result.wasteCategory,
             confidence = result.confidence,
-            suggestion = result.suggestion
+            suggestion = result.suggestion,
+            modelName = currentModelName
         )
 
         historyList = listOf(record) + historyList
@@ -150,14 +194,14 @@ class MainActivity : ComponentActivity() {
         result: RecognitionResult,
         isCorrect: Boolean
     ) {
-        val timeText = getCurrentTimeText()
-
-        val record = FeedbackRecord(
-            timeText = timeText,
+        val record = FeedbackEntity(
+            timeText = getCurrentTimeText(),
             label = result.label,
             labelCn = result.labelCn,
+            wasteCategory = result.wasteCategory,
             confidence = result.confidence,
-            isCorrect = isCorrect
+            isCorrect = isCorrect,
+            modelName = currentModelName
         )
 
         feedbackList = listOf(record) + feedbackList
@@ -172,7 +216,39 @@ class MainActivity : ComponentActivity() {
 
     override fun onDestroy() {
         super.onDestroy()
-        classifier.close()
+
+        if (::classifier.isInitialized) {
+            classifier.close()
+        }
+    }
+
+    private fun exportFeedbackCsv(feedbackList: List<FeedbackEntity>) {
+        val csvBuilder = StringBuilder()
+
+        csvBuilder.append("time,label,labelCn,wasteCategory,confidence,isCorrect,modelName\n")
+
+        feedbackList.forEach { record ->
+            csvBuilder.append(record.timeText).append(",")
+            csvBuilder.append(record.label).append(",")
+            csvBuilder.append(record.labelCn).append(",")
+            csvBuilder.append(record.wasteCategory).append(",")
+            csvBuilder.append(record.confidence).append(",")
+            csvBuilder.append(record.isCorrect).append(",")
+            csvBuilder.append(record.modelName).append("\n")
+        }
+
+        val sendIntent = android.content.Intent().apply {
+            action = android.content.Intent.ACTION_SEND
+            type = "text/csv"
+            putExtra(android.content.Intent.EXTRA_TEXT, csvBuilder.toString())
+        }
+
+        val shareIntent = android.content.Intent.createChooser(
+            sendIntent,
+            "导出反馈样本"
+        )
+
+        startActivity(shareIntent)
     }
 }
 
@@ -181,5 +257,6 @@ enum class AppScreen {
     CAMERA,
     RESULT,
     HISTORY,
-    KNOWLEDGE
+    KNOWLEDGE,
+    MODEL_SETTING
 }

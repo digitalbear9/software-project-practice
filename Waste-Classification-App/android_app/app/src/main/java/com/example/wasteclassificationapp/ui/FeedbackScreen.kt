@@ -17,12 +17,13 @@ import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
-import com.example.wasteclassificationapp.data.HistoryEntity
+import com.example.wasteclassificationapp.data.FeedbackEntity
 
 @Composable
-fun HistoryScreen(
-    historyList: List<HistoryEntity>,
-    onClearHistory: () -> Unit,
+fun FeedbackScreen(
+    feedbackList: List<FeedbackEntity>,
+    onClearFeedback: () -> Unit,
+    onExportFeedback: () -> Unit,
     onBackHome: () -> Unit
 ) {
     Column(
@@ -32,17 +33,17 @@ fun HistoryScreen(
             .verticalScroll(rememberScrollState())
     ) {
         Text(
-            text = "识别历史",
+            text = "反馈记录",
             style = MaterialTheme.typography.headlineMedium,
             fontWeight = FontWeight.Bold
         )
 
         Spacer(modifier = Modifier.height(16.dp))
 
-        if (historyList.isEmpty()) {
-            Text("暂无识别历史")
+        if (feedbackList.isEmpty()) {
+            Text("暂无反馈记录")
         } else {
-            historyList.forEach { record ->
+            feedbackList.forEach { record ->
                 Card(
                     modifier = Modifier.fillMaxWidth()
                 ) {
@@ -50,19 +51,17 @@ fun HistoryScreen(
                         modifier = Modifier.padding(16.dp)
                     ) {
                         Text(
-                            text = record.labelCn,
+                            text = if (record.isCorrect) "反馈：识别正确" else "反馈：识别错误",
                             style = MaterialTheme.typography.titleMedium,
                             fontWeight = FontWeight.Bold
                         )
+
+                        Text("识别物品：${record.labelCn}")
                         Text("英文标签：${record.label}")
                         Text("垃圾类别：${record.wasteCategory}")
-                        Text("识别方式：${record.source}")
-                        Text("识别时间：${record.timeText}")
+                        Text("反馈时间：${record.timeText}")
                         Text("使用模型：${record.modelName}")
                         Text("置信度：${String.format("%.2f", record.confidence * 100)}%")
-
-                        Spacer(modifier = Modifier.height(8.dp))
-                        Text("分类建议：${record.suggestion}")
                     }
                 }
 
@@ -73,11 +72,21 @@ fun HistoryScreen(
         Spacer(modifier = Modifier.height(16.dp))
 
         OutlinedButton(
-            onClick = onClearHistory,
+            onClick = onExportFeedback,
             modifier = Modifier.fillMaxWidth(),
-            enabled = historyList.isNotEmpty()
+            enabled = feedbackList.isNotEmpty()
         ) {
-            Text("清空历史记录")
+            Text("导出反馈样本")
+        }
+
+        Spacer(modifier = Modifier.height(12.dp))
+
+        OutlinedButton(
+            onClick = onClearFeedback,
+            modifier = Modifier.fillMaxWidth(),
+            enabled = feedbackList.isNotEmpty()
+        ) {
+            Text("清空反馈记录")
         }
 
         Spacer(modifier = Modifier.height(12.dp))

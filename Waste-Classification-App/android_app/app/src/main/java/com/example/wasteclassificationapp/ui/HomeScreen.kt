@@ -22,7 +22,8 @@ import androidx.compose.ui.unit.dp
 fun HomeScreen(
     onStartRecognize: () -> Unit,
     onOpenHistory: () -> Unit,
-    onOpenKnowledge: () -> Unit
+    onOpenKnowledge: () -> Unit,
+    onOpenModelSetting: () -> Unit
 ) {
     Column(
         modifier = Modifier
@@ -53,14 +54,14 @@ fun HomeScreen(
                 modifier = Modifier.padding(18.dp)
             ) {
                 Text(
-                    text = "V2 功能",
+                    text = "V3 功能",
                     style = MaterialTheme.typography.titleMedium,
                     fontWeight = FontWeight.Bold
                 )
 
                 Spacer(modifier = Modifier.height(8.dp))
 
-                Text("支持拍照识别、相册识别、识别历史、分类知识卡片和错误反馈。")
+                Text("支持拍照识别、相册识别、识别历史、分类知识卡片、错误反馈和模型切换。")
             }
         }
 
@@ -89,6 +90,15 @@ fun HomeScreen(
             modifier = Modifier.fillMaxWidth()
         ) {
             Text("分类知识")
+        }
+
+        Spacer(modifier = Modifier.height(12.dp))
+
+        OutlinedButton(
+            onClick = onOpenModelSetting,
+            modifier = Modifier.fillMaxWidth()
+        ) {
+            Text("模型设置")
         }
     }
 }
