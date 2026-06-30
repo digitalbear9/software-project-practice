@@ -46,7 +46,7 @@ import androidx.core.content.ContextCompat
 import com.example.wasteclassificationapp.data.ReminderScheduler
 import com.example.wasteclassificationapp.ui.ReminderSettingScreen
 import com.example.wasteclassificationapp.ui.BarcodeScanScreen
-
+import com.example.wasteclassificationapp.ui.ModelEvaluationScreen
 
 
 
@@ -168,6 +168,9 @@ class MainActivity : ComponentActivity() {
                                 },
                                 onOpenModelSetting = {
                                     currentScreen = AppScreen.MODEL_SETTING
+                                },
+                                onOpenModelEvaluation = {
+                                    currentScreen = AppScreen.MODEL_EVALUATION
                                 },
                                 onOpenAssistant = {
                                     currentScreen = AppScreen.ASSISTANT
@@ -294,6 +297,16 @@ class MainActivity : ComponentActivity() {
                                         modelName = "Dynamic Range"
                                     )
                                 },
+                                onBackHome = {
+                                    currentScreen = AppScreen.HOME
+                                }
+                            )
+                        }
+
+                        AppScreen.MODEL_EVALUATION -> {
+                            ModelEvaluationScreen(
+                                context = this@MainActivity,
+                                currentModelName = currentModelName,
                                 onBackHome = {
                                     currentScreen = AppScreen.HOME
                                 }
@@ -542,5 +555,6 @@ enum class AppScreen {
     KNOWLEDGE,
     FEEDBACK,
     MODEL_SETTING,
+    MODEL_EVALUATION,
     ASSISTANT
 }
