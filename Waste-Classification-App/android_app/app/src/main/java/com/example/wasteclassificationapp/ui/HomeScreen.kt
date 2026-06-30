@@ -24,6 +24,7 @@ import androidx.compose.ui.unit.dp
 fun HomeScreen(
     onStartRecognize: () -> Unit,
     onOpenRealTime: () -> Unit,
+    onOpenSearch: () -> Unit,
     onOpenHistory: () -> Unit,
     onOpenStatistics: () -> Unit,
     onOpenKnowledge: () -> Unit,
@@ -68,7 +69,7 @@ fun HomeScreen(
 
                 Spacer(modifier = Modifier.height(8.dp))
 
-                Text("支持拍照识别、实时识别、识别历史、识别统计、分类知识、反馈记录、模型切换和本地指令助手。")
+                Text("支持拍照识别、实时识别、垃圾搜索、识别历史、识别统计、分类知识、反馈记录、模型切换和本地指令助手。")
             }
         }
 
@@ -88,6 +89,15 @@ fun HomeScreen(
             modifier = Modifier.fillMaxWidth()
         ) {
             Text("实时识别")
+        }
+
+        Spacer(modifier = Modifier.height(12.dp))
+
+        OutlinedButton(
+            onClick = onOpenSearch,
+            modifier = Modifier.fillMaxWidth()
+        ) {
+            Text("垃圾搜索")
         }
 
         Spacer(modifier = Modifier.height(12.dp))

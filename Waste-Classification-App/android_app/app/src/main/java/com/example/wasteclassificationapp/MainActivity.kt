@@ -25,6 +25,8 @@ import com.example.wasteclassificationapp.ui.AssistantScreen
 import com.example.wasteclassificationapp.ui.RealTimeScreen
 import com.example.wasteclassificationapp.ui.FeedbackScreen
 import com.example.wasteclassificationapp.ui.StatisticsScreen
+import com.example.wasteclassificationapp.ui.SearchScreen
+
 class MainActivity : ComponentActivity() {
 
     private lateinit var classifier: ImageClassifier
@@ -57,6 +59,9 @@ class MainActivity : ComponentActivity() {
                                 },
                                 onOpenRealTime = {
                                     currentScreen = AppScreen.REAL_TIME
+                                },
+                                onOpenSearch = {
+                                    currentScreen = AppScreen.SEARCH
                                 },
                                 onOpenHistory = {
                                     currentScreen = AppScreen.HISTORY
@@ -211,6 +216,14 @@ class MainActivity : ComponentActivity() {
                                 }
                             )
                         }
+
+                        AppScreen.SEARCH -> {
+                            SearchScreen(
+                                onBackHome = {
+                                    currentScreen = AppScreen.HOME
+                                }
+                            )
+                        }
                     }
                 }
             }
@@ -315,6 +328,7 @@ enum class AppScreen {
     HOME,
     CAMERA,
     REAL_TIME,
+    SEARCH,
     RESULT,
     HISTORY,
     STATISTICS,
