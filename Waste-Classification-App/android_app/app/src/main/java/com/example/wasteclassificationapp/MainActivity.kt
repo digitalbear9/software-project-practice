@@ -3,28 +3,22 @@ package com.example.wasteclassificationapp
 import android.os.Bundle
 import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
-import androidx.compose.foundation.layout.Arrangement
-import androidx.compose.foundation.layout.Column
-import androidx.compose.foundation.layout.fillMaxSize
-import androidx.compose.foundation.layout.fillMaxWidth
-import androidx.compose.foundation.layout.padding
-import androidx.compose.material3.Button
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Surface
-import androidx.compose.material3.Text
-import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.setValue
-import androidx.compose.ui.Alignment
-import androidx.compose.ui.Modifier
-import androidx.compose.ui.unit.dp
 import com.example.wasteclassificationapp.ml.ImageClassifier
 import com.example.wasteclassificationapp.ml.RecognitionResult
+import com.example.wasteclassificationapp.model.HistoryRecord
 import com.example.wasteclassificationapp.ui.CameraScreen
+import com.example.wasteclassificationapp.ui.HistoryScreen
 import com.example.wasteclassificationapp.ui.HomeScreen
 import com.example.wasteclassificationapp.ui.KnowledgeScreen
 import com.example.wasteclassificationapp.ui.ResultScreen
+import java.text.SimpleDateFormat
+import java.util.Date
+import java.util.Locale
 
 class MainActivity : ComponentActivity() {
 
@@ -32,6 +26,8 @@ class MainActivity : ComponentActivity() {
 
     private var currentScreen by mutableStateOf(AppScreen.HOME)
     private var latestResult by mutableStateOf<RecognitionResult?>(null)
+
+    private var historyList by mutableStateOf<List<HistoryRecord>>(emptyList())
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -59,7 +55,15 @@ class MainActivity : ComponentActivity() {
                         AppScreen.CAMERA -> {
                             CameraScreen(
                                 onImageCaptured = { bitmap ->
-                                    latestResult = classifier.classify(bitmap)
+                                    val result = classifier.classify(bitmap)
+
+                                    latestResult = result
+
+                                    addHistory(
+                                        result = result,
+                                        source = "图片识别"
+                                    )
+
                                     currentScreen = AppScreen.RESULT
                                 },
                                 onBackHome = {
@@ -81,7 +85,11 @@ class MainActivity : ComponentActivity() {
                         }
 
                         AppScreen.HISTORY -> {
-                            HistoryPlaceholderScreen(
+                            HistoryScreen(
+                                historyList = historyList,
+                                onClearHistory = {
+                                    historyList = emptyList()
+                                },
                                 onBackHome = {
                                     currentScreen = AppScreen.HOME
                                 }
@@ -101,6 +109,28 @@ class MainActivity : ComponentActivity() {
         }
     }
 
+    private fun addHistory(
+        result: RecognitionResult,
+        source: String
+    ) {
+        val timeText = SimpleDateFormat(
+            "yyyy-MM-dd HH:mm:ss",
+            Locale.getDefault()
+        ).format(Date())
+
+        val record = HistoryRecord(
+            timeText = timeText,
+            source = source,
+            label = result.label,
+            labelCn = result.labelCn,
+            wasteCategory = result.wasteCategory,
+            confidence = result.confidence,
+            suggestion = result.suggestion
+        )
+
+        historyList = listOf(record) + historyList
+    }
+
     override fun onDestroy() {
         super.onDestroy()
         classifier.close()
@@ -113,28 +143,4 @@ enum class AppScreen {
     RESULT,
     HISTORY,
     KNOWLEDGE
-}
-
-@Composable
-fun HistoryPlaceholderScreen(
-    onBackHome: () -> Unit
-) {
-    Column(
-        modifier = Modifier
-            .fillMaxSize()
-            .padding(24.dp),
-        horizontalAlignment = Alignment.CenterHorizontally,
-        verticalArrangement = Arrangement.Center
-    ) {
-        Text("识别历史")
-
-        Text("该功能将在 V2 下一步中实现。")
-
-        Button(
-            onClick = onBackHome,
-            modifier = Modifier.fillMaxWidth()
-        ) {
-            Text("返回首页")
-        }
-    }
 }
