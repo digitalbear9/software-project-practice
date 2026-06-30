@@ -45,7 +45,7 @@ import androidx.activity.result.contract.ActivityResultContracts
 import androidx.core.content.ContextCompat
 import com.example.wasteclassificationapp.data.ReminderScheduler
 import com.example.wasteclassificationapp.ui.ReminderSettingScreen
-
+import com.example.wasteclassificationapp.ui.BarcodeScanScreen
 
 
 
@@ -126,6 +126,9 @@ class MainActivity : ComponentActivity() {
                                 },
                                 onOpenRealTime = {
                                     currentScreen = AppScreen.REAL_TIME
+                                },
+                                onOpenBarcodeScan = {
+                                    currentScreen = AppScreen.BARCODE_SCAN
                                 },
                                 onOpenSearch = {
                                     currentScreen = AppScreen.SEARCH
@@ -311,6 +314,15 @@ class MainActivity : ComponentActivity() {
                                 onAnalyzeBitmap = { bitmap ->
                                     classifier.classify(bitmap)
                                 },
+                                onBackHome = {
+                                    currentScreen = AppScreen.HOME
+                                }
+                            )
+                        }
+
+                        AppScreen.BARCODE_SCAN -> {
+                            BarcodeScanScreen(
+                                lifecycleOwner = this@MainActivity,
                                 onBackHome = {
                                     currentScreen = AppScreen.HOME
                                 }
@@ -515,6 +527,7 @@ enum class AppScreen {
     HOME,
     CAMERA,
     REAL_TIME,
+    BARCODE_SCAN,
     SEARCH,
     MISTAKE,
     DISPOSAL_POINT,
