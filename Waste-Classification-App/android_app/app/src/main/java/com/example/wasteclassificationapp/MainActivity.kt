@@ -38,7 +38,13 @@ import com.example.wasteclassificationapp.data.EcoScoreManager
 import com.example.wasteclassificationapp.model.EcoScoreState
 import com.example.wasteclassificationapp.ui.EcoScoreScreen
 import kotlinx.coroutines.launch
-
+import android.Manifest
+import android.content.pm.PackageManager
+import android.os.Build
+import androidx.activity.result.contract.ActivityResultContracts
+import androidx.core.content.ContextCompat
+import com.example.wasteclassificationapp.data.ReminderScheduler
+import com.example.wasteclassificationapp.ui.ReminderSettingScreen
 
 
 
@@ -59,6 +65,38 @@ class MainActivity : ComponentActivity() {
     )
 
     private var currentModelName by mutableStateOf("Float32")
+
+    private var pendingNotificationAction: (() -> Unit)? = null
+
+    private val notificationPermissionLauncher =
+        registerForActivityResult(ActivityResultContracts.RequestPermission()) { granted ->
+            if (granted) {
+                pendingNotificationAction?.invoke()
+            }
+
+            pendingNotificationAction = null
+        }
+
+    private fun runWithNotificationPermission(action: () -> Unit) {
+        if (Build.VERSION.SDK_INT < Build.VERSION_CODES.TIRAMISU) {
+            action()
+            return
+        }
+
+        val granted = ContextCompat.checkSelfPermission(
+            this,
+            Manifest.permission.POST_NOTIFICATIONS
+        ) == PackageManager.PERMISSION_GRANTED
+
+        if (granted) {
+            action()
+        } else {
+            pendingNotificationAction = action
+            notificationPermissionLauncher.launch(
+                Manifest.permission.POST_NOTIFICATIONS
+            )
+        }
+    }
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -109,6 +147,9 @@ class MainActivity : ComponentActivity() {
                                 },
                                 onOpenEcoScore = {
                                     currentScreen = AppScreen.ECO_SCORE
+                                },
+                                onOpenReminderSetting = {
+                                    currentScreen = AppScreen.REMINDER_SETTING
                                 },
                                 onOpenHistory = {
                                     currentScreen = AppScreen.HISTORY
@@ -349,6 +390,27 @@ class MainActivity : ComponentActivity() {
                                 }
                             )
                         }
+
+                        AppScreen.REMINDER_SETTING -> {
+                            ReminderSettingScreen(
+                                onEnableReminder = {
+                                    runWithNotificationPermission {
+                                        ReminderScheduler.scheduleDailyReminder(this@MainActivity)
+                                    }
+                                },
+                                onDisableReminder = {
+                                    ReminderScheduler.cancelDailyReminder(this@MainActivity)
+                                },
+                                onSendTestReminder = {
+                                    runWithNotificationPermission {
+                                        ReminderScheduler.sendTestReminder(this@MainActivity)
+                                    }
+                                },
+                                onBackHome = {
+                                    currentScreen = AppScreen.HOME
+                                }
+                            )
+                        }
                     }
                 }
             }
@@ -460,6 +522,7 @@ enum class AppScreen {
     SPECIAL_WASTE,
     CAMPUS_RULE,
     ECO_SCORE,
+    REMINDER_SETTING,
     RESULT,
     HISTORY,
     STATISTICS,

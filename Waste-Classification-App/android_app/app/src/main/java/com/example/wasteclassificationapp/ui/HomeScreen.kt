@@ -36,7 +36,8 @@ fun HomeScreen(
     onOpenKnowledge: () -> Unit,
     onOpenFeedback: () -> Unit,
     onOpenModelSetting: () -> Unit,
-    onOpenAssistant: () -> Unit
+    onOpenAssistant: () -> Unit,
+    onOpenReminderSetting: () -> Unit,
 ){
     Column(
         modifier = Modifier
@@ -158,6 +159,16 @@ fun HomeScreen(
             modifier = Modifier.fillMaxWidth()
         ) {
             Text("环保积分")
+        }
+
+
+        Spacer(modifier = Modifier.height(12.dp))
+
+        OutlinedButton(
+            onClick = onOpenReminderSetting,
+            modifier = Modifier.fillMaxWidth()
+        ) {
+            Text("每日提醒")
         }
 
         Spacer(modifier = Modifier.height(12.dp))
