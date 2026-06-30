@@ -74,8 +74,16 @@ class ImageClassifier(
     }
 
     private fun preprocessBitmap(bitmap: Bitmap): ByteBuffer {
+        /*
+         * 先做中心裁剪：
+         * CameraX 拍出来通常是 4:3 或 16:9，
+         * 如果直接压缩成 224×224，物体会被拉伸，而且背景过多。
+         * 中心裁剪可以让模型更接近训练时看到的图片形式。
+         */
+        val croppedBitmap = centerCropBitmap(bitmap)
+
         val resizedBitmap = Bitmap.createScaledBitmap(
-            bitmap,
+            croppedBitmap,
             imageSize,
             imageSize,
             true
@@ -104,10 +112,9 @@ class ImageClassifier(
             val b = pixel and 0xFF
 
             /*
-             * 注意：
-             * 你的训练模型内部已经包含 Rescaling(1/127.5, offset=-1)
-             * 因此 Android 端输入 0~255 的 float32 即可。
-             * 不要除以 255，也不要写 r / 127.5f - 1.0f。
+             * 仍然保持 0~255 float32 输入。
+             * 不要除以 255。
+             * 不要写 r / 127.5f - 1.0f。
              */
             inputBuffer.putFloat(r.toFloat())
             inputBuffer.putFloat(g.toFloat())
@@ -116,6 +123,24 @@ class ImageClassifier(
 
         inputBuffer.rewind()
         return inputBuffer
+    }
+
+    private fun centerCropBitmap(bitmap: Bitmap): Bitmap {
+        val width = bitmap.width
+        val height = bitmap.height
+
+        val cropSize = minOf(width, height)
+
+        val xOffset = (width - cropSize) / 2
+        val yOffset = (height - cropSize) / 2
+
+        return Bitmap.createBitmap(
+            bitmap,
+            xOffset,
+            yOffset,
+            cropSize,
+            cropSize
+        )
     }
 
     fun close() {
