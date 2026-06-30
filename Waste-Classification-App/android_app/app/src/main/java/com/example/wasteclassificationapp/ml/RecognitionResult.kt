@@ -9,5 +9,6 @@ data class RecognitionResult(
     val topCandidates: List<PredictionCandidate> = emptyList(),
     val top2Gap: Float = 1.0f,
     val isUncertain: Boolean = false,
-    val uncertaintyReason: String = ""
+    val uncertaintyReason: String = "",
+    val imageQuality: ImageQualityResult = ImageQualityResult()
 )

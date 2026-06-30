@@ -90,12 +90,35 @@ fun ResultScreen(
                         Text("Top1 与 Top2 差距：${String.format("%.2f", result.top2Gap * 100)}%")
                     }
 
+                    Spacer(modifier = Modifier.height(16.dp))
+
+                    Text("图像质量检测：")
+                    Text("质量等级：${result.imageQuality.qualityLevel}")
+                    Text("平均亮度：${String.format("%.1f", result.imageQuality.brightness)}")
+                    Text("对比度：${String.format("%.1f", result.imageQuality.contrast)}")
+                    Text("清晰度评分：${String.format("%.1f", result.imageQuality.sharpness)}")
+
+                    if (result.imageQuality.suggestions.isNotEmpty()) {
+                        Spacer(modifier = Modifier.height(8.dp))
+
+                        Text("拍摄质量提示：")
+
+                        result.imageQuality.suggestions.forEachIndexed { index, suggestion ->
+                            Text("${index + 1}. $suggestion")
+                        }
+                    }
+
                     if (result.isUncertain) {
                         Spacer(modifier = Modifier.height(16.dp))
 
                         Text("模型不确定提示：")
                         Text(result.uncertaintyReason)
                         Text("该物品可能不属于当前模型支持的 7 类，建议使用“垃圾搜索”或“特殊垃圾专区”继续判断。")
+
+                        if (result.imageQuality.qualityLevel != "良好") {
+                            Spacer(modifier = Modifier.height(8.dp))
+                            Text("同时，本次图像质量为“${result.imageQuality.qualityLevel}”，建议先重新拍摄更清晰的图片再识别。")
+                        }
                     }
 
                     Spacer(modifier = Modifier.height(12.dp))

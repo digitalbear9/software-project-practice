@@ -28,6 +28,8 @@ class ImageClassifier(
     }
 
     fun classify(bitmap: Bitmap): RecognitionResult {
+        val imageQuality = ImageQualityAnalyzer.analyze(bitmap)
+
         val inputBuffer = preprocessBitmap(bitmap)
 
         val output = Array(1) { FloatArray(numClasses) }
@@ -93,7 +95,8 @@ class ImageClassifier(
             topCandidates = topCandidates,
             top2Gap = top2Gap,
             isUncertain = isUncertain,
-            uncertaintyReason = uncertaintyReason
+            uncertaintyReason = uncertaintyReason,
+            imageQuality = imageQuality
         )
     }
 
