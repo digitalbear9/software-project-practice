@@ -22,6 +22,7 @@ import java.text.SimpleDateFormat
 import java.util.Date
 import java.util.Locale
 import com.example.wasteclassificationapp.ui.AssistantScreen
+import com.example.wasteclassificationapp.ui.RealTimeScreen
 class MainActivity : ComponentActivity() {
 
     private lateinit var classifier: ImageClassifier
@@ -51,6 +52,9 @@ class MainActivity : ComponentActivity() {
                             HomeScreen(
                                 onStartRecognize = {
                                     currentScreen = AppScreen.CAMERA
+                                },
+                                onOpenRealTime = {
+                                    currentScreen = AppScreen.REAL_TIME
                                 },
                                 onOpenHistory = {
                                     currentScreen = AppScreen.HISTORY
@@ -163,6 +167,18 @@ class MainActivity : ComponentActivity() {
                                 }
                             )
                         }
+
+                        AppScreen.REAL_TIME -> {
+                            RealTimeScreen(
+                                lifecycleOwner = this@MainActivity,
+                                onAnalyzeBitmap = { bitmap ->
+                                    classifier.classify(bitmap)
+                                },
+                                onBackHome = {
+                                    currentScreen = AppScreen.HOME
+                                }
+                            )
+                        }
                     }
                 }
             }
@@ -266,6 +282,7 @@ class MainActivity : ComponentActivity() {
 enum class AppScreen {
     HOME,
     CAMERA,
+    REAL_TIME,
     RESULT,
     HISTORY,
     KNOWLEDGE,

@@ -21,6 +21,7 @@ import androidx.compose.ui.unit.dp
 @Composable
 fun HomeScreen(
     onStartRecognize: () -> Unit,
+    onOpenRealTime: () -> Unit,
     onOpenHistory: () -> Unit,
     onOpenKnowledge: () -> Unit,
     onOpenModelSetting: () -> Unit,
@@ -73,6 +74,15 @@ fun HomeScreen(
             modifier = Modifier.fillMaxWidth()
         ) {
             Text("开始识别")
+        }
+
+        Spacer(modifier = Modifier.height(12.dp))
+
+        OutlinedButton(
+            onClick = onOpenRealTime,
+            modifier = Modifier.fillMaxWidth()
+        ) {
+            Text("实时识别")
         }
 
         Spacer(modifier = Modifier.height(12.dp))
