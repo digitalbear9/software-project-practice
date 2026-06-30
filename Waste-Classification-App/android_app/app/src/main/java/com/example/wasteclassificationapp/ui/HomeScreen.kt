@@ -27,6 +27,9 @@ fun HomeScreen(
     onOpenSearch: () -> Unit,
     onOpenMistake: () -> Unit,
     onOpenDisposalPoint: () -> Unit,
+    onOpenQuiz: () -> Unit,
+    onOpenSpecialWaste: () -> Unit,
+    onOpenCampusRule: () -> Unit,
     onOpenHistory: () -> Unit,
     onOpenStatistics: () -> Unit,
     onOpenKnowledge: () -> Unit,
@@ -71,7 +74,7 @@ fun HomeScreen(
 
                 Spacer(modifier = Modifier.height(8.dp))
 
-                Text("支持拍照识别、实时识别、垃圾搜索、易错垃圾、识别历史、识别统计、分类知识、反馈记录、模型切换和本地指令助手。")
+                Text("支持拍照识别、实时识别、垃圾搜索、易错垃圾、校园投放点、分类小测验、特殊垃圾专区、校园分类规则、识别历史、识别统计、分类知识、反馈记录、模型切换和本地指令助手。")
             }
         }
 
@@ -118,6 +121,33 @@ fun HomeScreen(
             modifier = Modifier.fillMaxWidth()
         ) {
             Text("校园投放点")
+        }
+
+        Spacer(modifier = Modifier.height(12.dp))
+
+        OutlinedButton(
+            onClick = onOpenQuiz,
+            modifier = Modifier.fillMaxWidth()
+        ) {
+            Text("分类小测验")
+        }
+
+        Spacer(modifier = Modifier.height(12.dp))
+
+        OutlinedButton(
+            onClick = onOpenSpecialWaste,
+            modifier = Modifier.fillMaxWidth()
+        ) {
+            Text("特殊垃圾专区")
+        }
+
+        Spacer(modifier = Modifier.height(12.dp))
+
+        OutlinedButton(
+            onClick = onOpenCampusRule,
+            modifier = Modifier.fillMaxWidth()
+        ) {
+            Text("校园分类规则")
         }
 
         Spacer(modifier = Modifier.height(12.dp))

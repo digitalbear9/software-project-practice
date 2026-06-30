@@ -28,6 +28,15 @@ import com.example.wasteclassificationapp.ui.StatisticsScreen
 import com.example.wasteclassificationapp.ui.SearchScreen
 import com.example.wasteclassificationapp.ui.MistakeScreen
 import com.example.wasteclassificationapp.ui.DisposalPointScreen
+import com.example.wasteclassificationapp.ui.QuizScreen
+import com.example.wasteclassificationapp.ui.SpecialWasteScreen
+import com.example.wasteclassificationapp.ui.CampusRuleScreen
+
+
+
+
+
+
 
 class MainActivity : ComponentActivity() {
 
@@ -70,6 +79,15 @@ class MainActivity : ComponentActivity() {
                                 },
                                 onOpenDisposalPoint = {
                                     currentScreen = AppScreen.DISPOSAL_POINT
+                                },
+                                onOpenQuiz = {
+                                    currentScreen = AppScreen.QUIZ
+                                },
+                                onOpenSpecialWaste = {
+                                    currentScreen = AppScreen.SPECIAL_WASTE
+                                },
+                                onOpenCampusRule = {
+                                    currentScreen = AppScreen.CAMPUS_RULE
                                 },
                                 onOpenHistory = {
                                     currentScreen = AppScreen.HISTORY
@@ -249,6 +267,30 @@ class MainActivity : ComponentActivity() {
                                 }
                             )
                         }
+
+                        AppScreen.QUIZ -> {
+                            QuizScreen(
+                                onBackHome = {
+                                    currentScreen = AppScreen.HOME
+                                }
+                            )
+                        }
+
+                        AppScreen.SPECIAL_WASTE -> {
+                            SpecialWasteScreen(
+                                onBackHome = {
+                                    currentScreen = AppScreen.HOME
+                                }
+                            )
+                        }
+
+                        AppScreen.CAMPUS_RULE -> {
+                            CampusRuleScreen(
+                                onBackHome = {
+                                    currentScreen = AppScreen.HOME
+                                }
+                            )
+                        }
                     }
                 }
             }
@@ -356,6 +398,9 @@ enum class AppScreen {
     SEARCH,
     MISTAKE,
     DISPOSAL_POINT,
+    QUIZ,
+    SPECIAL_WASTE,
+    CAMPUS_RULE,
     RESULT,
     HISTORY,
     STATISTICS,
