@@ -74,6 +74,32 @@ fun ResultScreen(
 
                     Spacer(modifier = Modifier.height(12.dp))
 
+                    if (result.topCandidates.isNotEmpty()) {
+                        Text("候选结果 Top-3：")
+
+                        result.topCandidates.forEachIndexed { index, candidate ->
+                            Text(
+                                "${index + 1}. ${candidate.labelCn}（${candidate.label}）：${
+                                    String.format("%.2f", candidate.confidence * 100)
+                                }%"
+                            )
+                        }
+
+                        Spacer(modifier = Modifier.height(8.dp))
+
+                        Text("Top1 与 Top2 差距：${String.format("%.2f", result.top2Gap * 100)}%")
+                    }
+
+                    if (result.isUncertain) {
+                        Spacer(modifier = Modifier.height(16.dp))
+
+                        Text("模型不确定提示：")
+                        Text(result.uncertaintyReason)
+                        Text("该物品可能不属于当前模型支持的 7 类，建议使用“垃圾搜索”或“特殊垃圾专区”继续判断。")
+                    }
+
+                    Spacer(modifier = Modifier.height(12.dp))
+
                     Text("分类建议：")
                     Text(result.suggestion)
 
@@ -94,12 +120,12 @@ fun ResultScreen(
                         Text("注意事项：${step.warning}")
                     }
 
-                    if (result.confidence < 0.70f) {
+                    if (result.isUncertain) {
                         Spacer(modifier = Modifier.height(16.dp))
 
-                        Text("低置信度提示：")
+                        Text("拍摄建议：")
                         Text(
-                            text = "本次识别置信度较低，结果可能不够准确。建议重新拍摄真实物品，保持光线充足，并让物品位于画面中央；也可以从相册选择更清晰的图片进行识别。"
+                            text = "建议重新拍摄真实物品，保持光线充足，让物品位于画面中央；也可以从相册选择更清晰的图片进行识别。"
                         )
                     }
                 }

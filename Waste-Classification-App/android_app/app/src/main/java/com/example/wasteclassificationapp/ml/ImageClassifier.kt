@@ -35,18 +35,65 @@ class ImageClassifier(
         interpreter.run(inputBuffer, output)
 
         val scores = output[0]
-        val maxIndex = scores.indices.maxBy { scores[it] }
+
+        val topIndices = scores.indices
+            .sortedByDescending { index -> scores[index] }
+            .take(3)
+
+        val topCandidates = topIndices.map { index ->
+            val candidateLabel = labels[index]
+            val candidateInfo = WasteCategory.getInfo(candidateLabel)
+
+            PredictionCandidate(
+                label = candidateLabel,
+                labelCn = candidateInfo.labelCn,
+                wasteCategory = candidateInfo.wasteCategory,
+                confidence = scores[index]
+            )
+        }
+
+        val maxIndex = topIndices.first()
         val confidence = scores[maxIndex]
         val label = labels[maxIndex]
 
         val info = WasteCategory.getInfo(label)
+
+        val top2Confidence = topCandidates.getOrNull(1)?.confidence ?: 0.0f
+        val top2Gap = confidence - top2Confidence
+
+        val lowConfidenceThreshold = 0.70f
+        val smallGapThreshold = 0.15f
+
+        val isUncertain = confidence < lowConfidenceThreshold || top2Gap < smallGapThreshold
+
+        val uncertaintyReason = when {
+            confidence < lowConfidenceThreshold && top2Gap < smallGapThreshold -> {
+                "模型最高置信度较低，并且前两个候选类别分数接近。"
+            }
+
+            confidence < lowConfidenceThreshold -> {
+                "模型最高置信度较低，当前结果可能不够稳定。"
+            }
+
+            top2Gap < smallGapThreshold -> {
+                "前两个候选类别分数接近，模型可能在这些类别之间存在混淆。"
+            }
+
+            else -> {
+                ""
+            }
+        }
 
         return RecognitionResult(
             label = label,
             labelCn = info.labelCn,
             wasteCategory = info.wasteCategory,
             suggestion = info.suggestion,
-            confidence = confidence
+            confidence = confidence,
+            topCandidates = topCandidates,
+            top2Gap = top2Gap,
+            isUncertain = isUncertain,
+            uncertaintyReason = uncertaintyReason
         )
     }
 
