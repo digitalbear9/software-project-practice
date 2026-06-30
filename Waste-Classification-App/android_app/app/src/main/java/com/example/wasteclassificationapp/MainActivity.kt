@@ -47,7 +47,9 @@ import com.example.wasteclassificationapp.data.ReminderScheduler
 import com.example.wasteclassificationapp.ui.ReminderSettingScreen
 import com.example.wasteclassificationapp.ui.BarcodeScanScreen
 import com.example.wasteclassificationapp.ui.ModelEvaluationScreen
-
+import com.example.wasteclassificationapp.model.OptimizationSample
+import com.example.wasteclassificationapp.model.OptimizationSampleRepository
+import com.example.wasteclassificationapp.ui.OptimizationSampleScreen
 
 
 class MainActivity : ComponentActivity() {
@@ -116,6 +118,11 @@ class MainActivity : ComponentActivity() {
 
             val todayText = ecoScoreManager.getTodayText()
 
+            val optimizationSamples = OptimizationSampleRepository.buildSamples(
+                historyList = historyList,
+                feedbackList = feedbackList
+            )
+
             MaterialTheme {
                 Surface {
                     when (currentScreen) {
@@ -171,6 +178,9 @@ class MainActivity : ComponentActivity() {
                                 },
                                 onOpenModelEvaluation = {
                                     currentScreen = AppScreen.MODEL_EVALUATION
+                                },
+                                onOpenOptimizationSamples = {
+                                    currentScreen = AppScreen.OPTIMIZATION_SAMPLES
                                 },
                                 onOpenAssistant = {
                                     currentScreen = AppScreen.ASSISTANT
@@ -436,6 +446,18 @@ class MainActivity : ComponentActivity() {
                                 }
                             )
                         }
+
+                        AppScreen.OPTIMIZATION_SAMPLES -> {
+                            OptimizationSampleScreen(
+                                samples = optimizationSamples,
+                                onExportSamples = {
+                                    exportOptimizationSamplesCsv(optimizationSamples)
+                                },
+                                onBackHome = {
+                                    currentScreen = AppScreen.HOME
+                                }
+                            )
+                        }
                     }
                 }
             }
@@ -460,6 +482,10 @@ class MainActivity : ComponentActivity() {
         result: RecognitionResult,
         source: String
     ) {
+        val topCandidatesText = result.topCandidates.joinToString(" | ") { candidate ->
+            "${candidate.labelCn}(${candidate.label}):${String.format("%.2f", candidate.confidence * 100)}%"
+        }
+
         val record = HistoryEntity(
             timeText = getCurrentTimeText(),
             source = source,
@@ -468,7 +494,11 @@ class MainActivity : ComponentActivity() {
             wasteCategory = result.wasteCategory,
             confidence = result.confidence,
             suggestion = result.suggestion,
-            modelName = currentModelName
+            modelName = currentModelName,
+            topCandidatesText = topCandidatesText,
+            top2Gap = result.top2Gap,
+            isUncertain = result.isUncertain,
+            uncertaintyReason = result.uncertaintyReason
         )
 
         historyList = listOf(record) + historyList
@@ -534,6 +564,25 @@ class MainActivity : ComponentActivity() {
 
         startActivity(shareIntent)
     }
+
+    private fun exportOptimizationSamplesCsv(
+        samples: List<OptimizationSample>
+    ) {
+        val csvText = OptimizationSampleRepository.buildCsv(samples)
+
+        val sendIntent = android.content.Intent().apply {
+            action = android.content.Intent.ACTION_SEND
+            type = "text/csv"
+            putExtra(android.content.Intent.EXTRA_TEXT, csvText)
+        }
+
+        val shareIntent = android.content.Intent.createChooser(
+            sendIntent,
+            "导出模型优化样本"
+        )
+
+        startActivity(shareIntent)
+    }
 }
 
 enum class AppScreen {
@@ -556,5 +605,6 @@ enum class AppScreen {
     FEEDBACK,
     MODEL_SETTING,
     MODEL_EVALUATION,
+    OPTIMIZATION_SAMPLES,
     ASSISTANT
 }

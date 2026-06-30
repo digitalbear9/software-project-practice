@@ -39,7 +39,8 @@ fun HomeScreen(
     onOpenAssistant: () -> Unit,
     onOpenReminderSetting: () -> Unit,
     onOpenBarcodeScan: () -> Unit,
-    onOpenModelEvaluation: () -> Unit
+    onOpenModelEvaluation: () -> Unit,
+    onOpenOptimizationSamples: () -> Unit
 ){
     Column(
         modifier = Modifier
@@ -78,7 +79,7 @@ fun HomeScreen(
 
                 Spacer(modifier = Modifier.height(8.dp))
 
-                Text("支持拍照识别、实时识别、条码识别、垃圾搜索、易错垃圾、校园投放点、分类小测验、特殊垃圾专区、校园分类规则、环保积分、每日提醒、识别历史、识别统计、分类知识、反馈记录、模型切换、模型评估报告和本地指令助手。")
+                Text("支持拍照识别、实时识别、条码识别、垃圾搜索、易错垃圾、校园投放点、分类小测验、特殊垃圾专区、校园分类规则、环保积分、每日提醒、识别历史、识别统计、分类知识、反馈记录、模型切换、模型评估报告、模型优化样本池和本地指令助手。")
             }
         }
 
@@ -234,6 +235,15 @@ fun HomeScreen(
             modifier = Modifier.fillMaxWidth()
         ) {
             Text("模型评估报告")
+        }
+
+        Spacer(modifier = Modifier.height(12.dp))
+
+        OutlinedButton(
+            onClick = onOpenOptimizationSamples,
+            modifier = Modifier.fillMaxWidth()
+        ) {
+            Text("模型优化样本池")
         }
 
         Spacer(modifier = Modifier.height(12.dp))

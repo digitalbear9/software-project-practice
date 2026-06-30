@@ -14,5 +14,10 @@ data class HistoryEntity(
     val wasteCategory: String,
     val confidence: Float,
     val suggestion: String,
-    val modelName: String
+    val modelName: String,
+
+    val topCandidatesText: String = "",
+    val top2Gap: Float = 1.0f,
+    val isUncertain: Boolean = false,
+    val uncertaintyReason: String = ""
 )
