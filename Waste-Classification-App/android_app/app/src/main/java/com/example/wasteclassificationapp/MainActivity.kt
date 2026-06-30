@@ -31,7 +31,13 @@ import com.example.wasteclassificationapp.ui.DisposalPointScreen
 import com.example.wasteclassificationapp.ui.QuizScreen
 import com.example.wasteclassificationapp.ui.SpecialWasteScreen
 import com.example.wasteclassificationapp.ui.CampusRuleScreen
-
+import androidx.compose.runtime.collectAsState
+import androidx.compose.runtime.remember
+import androidx.compose.runtime.rememberCoroutineScope
+import com.example.wasteclassificationapp.data.EcoScoreManager
+import com.example.wasteclassificationapp.model.EcoScoreState
+import com.example.wasteclassificationapp.ui.EcoScoreScreen
+import kotlinx.coroutines.launch
 
 
 
@@ -60,6 +66,18 @@ class MainActivity : ComponentActivity() {
         classifier = ImageClassifier(this, currentModelFileName)
 
         setContent {
+            val ecoScoreManager = remember {
+                EcoScoreManager(this@MainActivity)
+            }
+
+            val ecoScoreState = ecoScoreManager.ecoScoreFlow.collectAsState(
+                initial = EcoScoreState()
+            )
+
+            val coroutineScope = rememberCoroutineScope()
+
+            val todayText = ecoScoreManager.getTodayText()
+
             MaterialTheme {
                 Surface {
                     when (currentScreen) {
@@ -88,6 +106,9 @@ class MainActivity : ComponentActivity() {
                                 },
                                 onOpenCampusRule = {
                                     currentScreen = AppScreen.CAMPUS_RULE
+                                },
+                                onOpenEcoScore = {
+                                    currentScreen = AppScreen.ECO_SCORE
                                 },
                                 onOpenHistory = {
                                     currentScreen = AppScreen.HISTORY
@@ -122,6 +143,10 @@ class MainActivity : ComponentActivity() {
                                         source = "图片识别"
                                     )
 
+                                    coroutineScope.launch {
+                                        ecoScoreManager.addScore(1)
+                                    }
+
                                     currentScreen = AppScreen.RESULT
                                 },
                                 onBackHome = {
@@ -145,6 +170,10 @@ class MainActivity : ComponentActivity() {
                                             result = result,
                                             isCorrect = true
                                         )
+
+                                        coroutineScope.launch {
+                                            ecoScoreManager.addScore(1)
+                                        }
                                     }
                                 },
                                 onFeedbackWrong = {
@@ -153,6 +182,10 @@ class MainActivity : ComponentActivity() {
                                             result = result,
                                             isCorrect = false
                                         )
+
+                                        coroutineScope.launch {
+                                            ecoScoreManager.addScore(1)
+                                        }
                                     }
                                 }
                             )
@@ -270,6 +303,11 @@ class MainActivity : ComponentActivity() {
 
                         AppScreen.QUIZ -> {
                             QuizScreen(
+                                onQuizFinished = {
+                                    coroutineScope.launch {
+                                        ecoScoreManager.addScore(3)
+                                    }
+                                },
                                 onBackHome = {
                                     currentScreen = AppScreen.HOME
                                 }
@@ -286,6 +324,26 @@ class MainActivity : ComponentActivity() {
 
                         AppScreen.CAMPUS_RULE -> {
                             CampusRuleScreen(
+                                onBackHome = {
+                                    currentScreen = AppScreen.HOME
+                                }
+                            )
+                        }
+
+                        AppScreen.ECO_SCORE -> {
+                            EcoScoreScreen(
+                                ecoScoreState = ecoScoreState.value,
+                                todayText = todayText,
+                                onCheckIn = {
+                                    coroutineScope.launch {
+                                        ecoScoreManager.checkInToday()
+                                    }
+                                },
+                                onResetScore = {
+                                    coroutineScope.launch {
+                                        ecoScoreManager.resetScore()
+                                    }
+                                },
                                 onBackHome = {
                                     currentScreen = AppScreen.HOME
                                 }
@@ -401,6 +459,7 @@ enum class AppScreen {
     QUIZ,
     SPECIAL_WASTE,
     CAMPUS_RULE,
+    ECO_SCORE,
     RESULT,
     HISTORY,
     STATISTICS,

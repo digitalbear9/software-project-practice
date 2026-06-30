@@ -31,8 +31,9 @@ import com.example.wasteclassificationapp.model.QuizRepository
 
 @Composable
 fun QuizScreen(
+    onQuizFinished: () -> Unit,
     onBackHome: () -> Unit
-) {
+){
     val questions = QuizRepository.questions
 
     var currentIndex by remember {
@@ -52,6 +53,10 @@ fun QuizScreen(
     }
 
     var isFinished by remember {
+        mutableStateOf(false)
+    }
+
+    var hasAddedQuizScore by remember {
         mutableStateOf(false)
     }
 
@@ -85,6 +90,7 @@ fun QuizScreen(
                     hasSubmitted = false
                     score = 0
                     isFinished = false
+                    hasAddedQuizScore = false
                 }
             )
         } else {
@@ -137,6 +143,10 @@ fun QuizScreen(
                             hasSubmitted = false
                         } else {
                             isFinished = true
+                            if (!hasAddedQuizScore) {
+                                onQuizFinished()
+                                hasAddedQuizScore = true
+                            }
                         }
                     },
                     modifier = Modifier.fillMaxWidth()
