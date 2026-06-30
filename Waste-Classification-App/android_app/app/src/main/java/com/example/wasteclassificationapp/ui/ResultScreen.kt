@@ -10,18 +10,30 @@ import androidx.compose.foundation.layout.padding
 import androidx.compose.material3.Button
 import androidx.compose.material3.Card
 import androidx.compose.material3.MaterialTheme
+import androidx.compose.material3.OutlinedButton
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.getValue
+import androidx.compose.runtime.mutableStateOf
+import androidx.compose.runtime.remember
+import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.unit.dp
 import com.example.wasteclassificationapp.ml.RecognitionResult
+
 @Composable
 fun ResultScreen(
     result: RecognitionResult?,
     onRetry: () -> Unit,
-    onBackHome: () -> Unit
+    onBackHome: () -> Unit,
+    onFeedbackCorrect: () -> Unit,
+    onFeedbackWrong: () -> Unit
 ) {
+    var feedbackMessage by remember(result) {
+        mutableStateOf<String?>(null)
+    }
+
     Column(
         modifier = Modifier
             .fillMaxSize()
@@ -71,6 +83,41 @@ fun ResultScreen(
                         )
                     }
                 }
+            }
+
+            Spacer(modifier = Modifier.height(24.dp))
+
+            Text("本次识别是否正确？")
+
+            Spacer(modifier = Modifier.height(8.dp))
+
+            Button(
+                onClick = {
+                    onFeedbackCorrect()
+                    feedbackMessage = "已记录反馈：识别正确"
+                },
+                modifier = Modifier.fillMaxWidth(),
+                enabled = feedbackMessage == null
+            ) {
+                Text("识别正确")
+            }
+
+            Spacer(modifier = Modifier.height(8.dp))
+
+            OutlinedButton(
+                onClick = {
+                    onFeedbackWrong()
+                    feedbackMessage = "已记录反馈：识别错误"
+                },
+                modifier = Modifier.fillMaxWidth(),
+                enabled = feedbackMessage == null
+            ) {
+                Text("识别错误")
+            }
+
+            feedbackMessage?.let { message ->
+                Spacer(modifier = Modifier.height(8.dp))
+                Text(message)
             }
         } else {
             Text("暂无识别结果")

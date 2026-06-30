@@ -10,6 +10,7 @@ import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.setValue
 import com.example.wasteclassificationapp.ml.ImageClassifier
 import com.example.wasteclassificationapp.ml.RecognitionResult
+import com.example.wasteclassificationapp.model.FeedbackRecord
 import com.example.wasteclassificationapp.model.HistoryRecord
 import com.example.wasteclassificationapp.ui.CameraScreen
 import com.example.wasteclassificationapp.ui.HistoryScreen
@@ -28,6 +29,7 @@ class MainActivity : ComponentActivity() {
     private var latestResult by mutableStateOf<RecognitionResult?>(null)
 
     private var historyList by mutableStateOf<List<HistoryRecord>>(emptyList())
+    private var feedbackList by mutableStateOf<List<FeedbackRecord>>(emptyList())
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -80,6 +82,22 @@ class MainActivity : ComponentActivity() {
                                 },
                                 onBackHome = {
                                     currentScreen = AppScreen.HOME
+                                },
+                                onFeedbackCorrect = {
+                                    latestResult?.let { result ->
+                                        addFeedback(
+                                            result = result,
+                                            isCorrect = true
+                                        )
+                                    }
+                                },
+                                onFeedbackWrong = {
+                                    latestResult?.let { result ->
+                                        addFeedback(
+                                            result = result,
+                                            isCorrect = false
+                                        )
+                                    }
                                 }
                             )
                         }
@@ -113,10 +131,7 @@ class MainActivity : ComponentActivity() {
         result: RecognitionResult,
         source: String
     ) {
-        val timeText = SimpleDateFormat(
-            "yyyy-MM-dd HH:mm:ss",
-            Locale.getDefault()
-        ).format(Date())
+        val timeText = getCurrentTimeText()
 
         val record = HistoryRecord(
             timeText = timeText,
@@ -129,6 +144,30 @@ class MainActivity : ComponentActivity() {
         )
 
         historyList = listOf(record) + historyList
+    }
+
+    private fun addFeedback(
+        result: RecognitionResult,
+        isCorrect: Boolean
+    ) {
+        val timeText = getCurrentTimeText()
+
+        val record = FeedbackRecord(
+            timeText = timeText,
+            label = result.label,
+            labelCn = result.labelCn,
+            confidence = result.confidence,
+            isCorrect = isCorrect
+        )
+
+        feedbackList = listOf(record) + feedbackList
+    }
+
+    private fun getCurrentTimeText(): String {
+        return SimpleDateFormat(
+            "yyyy-MM-dd HH:mm:ss",
+            Locale.getDefault()
+        ).format(Date())
     }
 
     override fun onDestroy() {
