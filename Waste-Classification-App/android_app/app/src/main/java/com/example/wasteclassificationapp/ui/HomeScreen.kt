@@ -23,7 +23,8 @@ fun HomeScreen(
     onStartRecognize: () -> Unit,
     onOpenHistory: () -> Unit,
     onOpenKnowledge: () -> Unit,
-    onOpenModelSetting: () -> Unit
+    onOpenModelSetting: () -> Unit,
+    onOpenAssistant: () -> Unit
 ) {
     Column(
         modifier = Modifier
@@ -61,7 +62,7 @@ fun HomeScreen(
 
                 Spacer(modifier = Modifier.height(8.dp))
 
-                Text("支持拍照识别、相册识别、识别历史、分类知识卡片、错误反馈和模型切换。")
+                Text("支持拍照识别、相册识别、识别历史、分类知识、错误反馈、模型切换和本地指令助手。")
             }
         }
 
@@ -99,6 +100,15 @@ fun HomeScreen(
             modifier = Modifier.fillMaxWidth()
         ) {
             Text("模型设置")
+        }
+
+        Spacer(modifier = Modifier.height(12.dp))
+
+        OutlinedButton(
+            onClick = onOpenAssistant,
+            modifier = Modifier.fillMaxWidth()
+        ) {
+            Text("本地指令助手")
         }
     }
 }

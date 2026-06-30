@@ -21,7 +21,7 @@ import com.example.wasteclassificationapp.ui.ResultScreen
 import java.text.SimpleDateFormat
 import java.util.Date
 import java.util.Locale
-
+import com.example.wasteclassificationapp.ui.AssistantScreen
 class MainActivity : ComponentActivity() {
 
     private lateinit var classifier: ImageClassifier
@@ -60,6 +60,9 @@ class MainActivity : ComponentActivity() {
                                 },
                                 onOpenModelSetting = {
                                     currentScreen = AppScreen.MODEL_SETTING
+                                },
+                                onOpenAssistant = {
+                                    currentScreen = AppScreen.ASSISTANT
                                 }
                             )
                         }
@@ -147,6 +150,14 @@ class MainActivity : ComponentActivity() {
                                         modelName = "Dynamic Range"
                                     )
                                 },
+                                onBackHome = {
+                                    currentScreen = AppScreen.HOME
+                                }
+                            )
+                        }
+
+                        AppScreen.ASSISTANT -> {
+                            AssistantScreen(
                                 onBackHome = {
                                     currentScreen = AppScreen.HOME
                                 }
@@ -258,5 +269,6 @@ enum class AppScreen {
     RESULT,
     HISTORY,
     KNOWLEDGE,
-    MODEL_SETTING
+    MODEL_SETTING,
+    ASSISTANT
 }
