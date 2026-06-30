@@ -23,6 +23,8 @@ import java.util.Date
 import java.util.Locale
 import com.example.wasteclassificationapp.ui.AssistantScreen
 import com.example.wasteclassificationapp.ui.RealTimeScreen
+import com.example.wasteclassificationapp.ui.FeedbackScreen
+import com.example.wasteclassificationapp.ui.StatisticsScreen
 class MainActivity : ComponentActivity() {
 
     private lateinit var classifier: ImageClassifier
@@ -59,8 +61,14 @@ class MainActivity : ComponentActivity() {
                                 onOpenHistory = {
                                     currentScreen = AppScreen.HISTORY
                                 },
+                                onOpenStatistics = {
+                                    currentScreen = AppScreen.STATISTICS
+                                },
                                 onOpenKnowledge = {
                                     currentScreen = AppScreen.KNOWLEDGE
+                                },
+                                onOpenFeedback = {
+                                    currentScreen = AppScreen.FEEDBACK
                                 },
                                 onOpenModelSetting = {
                                     currentScreen = AppScreen.MODEL_SETTING
@@ -124,6 +132,30 @@ class MainActivity : ComponentActivity() {
                                 historyList = historyList,
                                 onClearHistory = {
                                     historyList = emptyList()
+                                },
+                                onBackHome = {
+                                    currentScreen = AppScreen.HOME
+                                }
+                            )
+                        }
+
+                        AppScreen.STATISTICS -> {
+                            StatisticsScreen(
+                                historyList = historyList,
+                                onBackHome = {
+                                    currentScreen = AppScreen.HOME
+                                }
+                            )
+                        }
+
+                        AppScreen.FEEDBACK -> {
+                            FeedbackScreen(
+                                feedbackList = feedbackList,
+                                onClearFeedback = {
+                                    feedbackList = emptyList()
+                                },
+                                onExportFeedback = {
+                                    exportFeedbackCsv(feedbackList)
                                 },
                                 onBackHome = {
                                     currentScreen = AppScreen.HOME
@@ -285,7 +317,9 @@ enum class AppScreen {
     REAL_TIME,
     RESULT,
     HISTORY,
+    STATISTICS,
     KNOWLEDGE,
+    FEEDBACK,
     MODEL_SETTING,
     ASSISTANT
 }

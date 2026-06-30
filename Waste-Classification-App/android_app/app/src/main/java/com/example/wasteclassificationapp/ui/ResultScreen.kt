@@ -21,6 +21,7 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.unit.dp
 import com.example.wasteclassificationapp.ml.RecognitionResult
+import com.example.wasteclassificationapp.model.DisposalStepRepository
 
 @Composable
 fun ResultScreen(
@@ -57,6 +58,8 @@ fun ResultScreen(
                 else -> "低"
             }
 
+            val disposalStep = DisposalStepRepository.getStep(result.label)
+
             Card(
                 modifier = Modifier.fillMaxWidth()
             ) {
@@ -73,6 +76,23 @@ fun ResultScreen(
 
                     Text("分类建议：")
                     Text(result.suggestion)
+
+                    disposalStep?.let { step ->
+                        Spacer(modifier = Modifier.height(16.dp))
+
+                        Text("投放前处理步骤：")
+                        Text(step.title)
+
+                        Spacer(modifier = Modifier.height(8.dp))
+
+                        step.steps.forEachIndexed { index, item ->
+                            Text("${index + 1}. $item")
+                        }
+
+                        Spacer(modifier = Modifier.height(8.dp))
+
+                        Text("注意事项：${step.warning}")
+                    }
 
                     if (result.confidence < 0.70f) {
                         Spacer(modifier = Modifier.height(16.dp))

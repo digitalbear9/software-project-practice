@@ -7,6 +7,8 @@ import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.rememberScrollState
+import androidx.compose.foundation.verticalScroll
 import androidx.compose.material3.Button
 import androidx.compose.material3.Card
 import androidx.compose.material3.MaterialTheme
@@ -23,14 +25,17 @@ fun HomeScreen(
     onStartRecognize: () -> Unit,
     onOpenRealTime: () -> Unit,
     onOpenHistory: () -> Unit,
+    onOpenStatistics: () -> Unit,
     onOpenKnowledge: () -> Unit,
+    onOpenFeedback: () -> Unit,
     onOpenModelSetting: () -> Unit,
     onOpenAssistant: () -> Unit
 ) {
     Column(
         modifier = Modifier
             .fillMaxSize()
-            .padding(24.dp),
+            .padding(24.dp)
+            .verticalScroll(rememberScrollState()),
         horizontalAlignment = Alignment.CenterHorizontally,
         verticalArrangement = Arrangement.Center
     ) {
@@ -63,7 +68,7 @@ fun HomeScreen(
 
                 Spacer(modifier = Modifier.height(8.dp))
 
-                Text("支持拍照识别、相册识别、识别历史、分类知识、错误反馈、模型切换和本地指令助手。")
+                Text("支持拍照识别、实时识别、识别历史、识别统计、分类知识、反馈记录、模型切换和本地指令助手。")
             }
         }
 
@@ -97,10 +102,28 @@ fun HomeScreen(
         Spacer(modifier = Modifier.height(12.dp))
 
         OutlinedButton(
+            onClick = onOpenStatistics,
+            modifier = Modifier.fillMaxWidth()
+        ) {
+            Text("识别统计")
+        }
+
+        Spacer(modifier = Modifier.height(12.dp))
+
+        OutlinedButton(
             onClick = onOpenKnowledge,
             modifier = Modifier.fillMaxWidth()
         ) {
             Text("分类知识")
+        }
+
+        Spacer(modifier = Modifier.height(12.dp))
+
+        OutlinedButton(
+            onClick = onOpenFeedback,
+            modifier = Modifier.fillMaxWidth()
+        ) {
+            Text("反馈记录")
         }
 
         Spacer(modifier = Modifier.height(12.dp))
