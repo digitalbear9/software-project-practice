@@ -26,6 +26,7 @@ import com.example.wasteclassificationapp.ui.RealTimeScreen
 import com.example.wasteclassificationapp.ui.FeedbackScreen
 import com.example.wasteclassificationapp.ui.StatisticsScreen
 import com.example.wasteclassificationapp.ui.SearchScreen
+import com.example.wasteclassificationapp.ui.MistakeScreen
 
 class MainActivity : ComponentActivity() {
 
@@ -62,6 +63,9 @@ class MainActivity : ComponentActivity() {
                                 },
                                 onOpenSearch = {
                                     currentScreen = AppScreen.SEARCH
+                                },
+                                onOpenMistake = {
+                                    currentScreen = AppScreen.MISTAKE
                                 },
                                 onOpenHistory = {
                                     currentScreen = AppScreen.HISTORY
@@ -224,6 +228,15 @@ class MainActivity : ComponentActivity() {
                                 }
                             )
                         }
+
+                        AppScreen.MISTAKE -> {
+                            MistakeScreen(
+                                feedbackList = feedbackList,
+                                onBackHome = {
+                                    currentScreen = AppScreen.HOME
+                                }
+                            )
+                        }
                     }
                 }
             }
@@ -329,6 +342,7 @@ enum class AppScreen {
     CAMERA,
     REAL_TIME,
     SEARCH,
+    MISTAKE,
     RESULT,
     HISTORY,
     STATISTICS,

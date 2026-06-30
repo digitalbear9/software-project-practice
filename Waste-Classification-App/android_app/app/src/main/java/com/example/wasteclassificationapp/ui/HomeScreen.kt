@@ -25,6 +25,7 @@ fun HomeScreen(
     onStartRecognize: () -> Unit,
     onOpenRealTime: () -> Unit,
     onOpenSearch: () -> Unit,
+    onOpenMistake: () -> Unit,
     onOpenHistory: () -> Unit,
     onOpenStatistics: () -> Unit,
     onOpenKnowledge: () -> Unit,
@@ -69,7 +70,7 @@ fun HomeScreen(
 
                 Spacer(modifier = Modifier.height(8.dp))
 
-                Text("支持拍照识别、实时识别、垃圾搜索、识别历史、识别统计、分类知识、反馈记录、模型切换和本地指令助手。")
+                Text("支持拍照识别、实时识别、垃圾搜索、易错垃圾、识别历史、识别统计、分类知识、反馈记录、模型切换和本地指令助手。")
             }
         }
 
@@ -98,6 +99,15 @@ fun HomeScreen(
             modifier = Modifier.fillMaxWidth()
         ) {
             Text("垃圾搜索")
+        }
+
+        Spacer(modifier = Modifier.height(12.dp))
+
+        OutlinedButton(
+            onClick = onOpenMistake,
+            modifier = Modifier.fillMaxWidth()
+        ) {
+            Text("易错垃圾")
         }
 
         Spacer(modifier = Modifier.height(12.dp))
