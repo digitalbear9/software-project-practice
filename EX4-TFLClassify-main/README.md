@@ -1,5 +1,33 @@
 # 基于TensorFlow Lite实现的Android花卉识别应用
 
+## 实验内容
+
+• 按照教程构建基于TensorFlow Lite的Android花卉识别应
+
+用。
+
+• 查 看 该 应 用 的 代 码 框 架 ， 特 别 注 意 CameraX 库
+
+(AndroidX.camera.*)和数据视图模型的使用。
+
+• 上 传 完 成 既 定 功 能 的 代 码 至 Github ， 并 撰 写 详 细 的
+
+Readme文档。
+
+## 实验步骤
+
+• 首先安装Android Studio 4.1以上的版本
+
+• 下载代码ZIP或者使用git clone克隆代码
+
+• 按照教程完成所有TODO代码项
+
+• 导入已有的Tensorflow Lite模型（finish模块ml文件夹下
+
+的FlowerModel.tflite）
+
+• 真机运行完成的花卉识别应用
+
 #### 一、编译运行并成功解决生成项目中的错误
 
 启动finish模块中的MainActivity.kt：
@@ -8,13 +36,33 @@
 
 #### 二、完成start模块中的TODO代码项并导入已有的Tensorflow Lite模型
 
+TODO代码项完成步骤：
+
+1. 定位“start”模块**MainActivity.kt**文件的TODO 1，添加初始化训练模型的代码
+2. 在CameraX的analyze方法内部，需要将摄像头的输入`ImageProxy`转化为`Bitmap`对象，并进一步转化为`TensorImage` 对象
+3. 对图像进行处理并生成结果，主要包含下述操作：
+   - 按照属性`score`对识别结果按照概率从高到低排序
+   - 列出最高k种可能的结果，k的结果由常量`MAX_RESULT_DISPLAY`定义
+4. 将识别的结果加入数据对象`Recognition` 中，包含`label`和`score`两个元素。后续将用于`RecyclerView`的数据显示
+5. 将原先用于虚拟显示识别结果的代码注释掉或者删除
+
 <img src="shotscreens\TODO_Code_1.png" alt="TODO_Code_1" style="zoom:50%;" />
 
 <img src="shotscreens\TODO_Code_2.png" alt="TODO_Code_2" style="zoom:50%;" />
 
+添加TensorFlow Lite完成步骤：
+
+1.选择"start"模块
+
+2.右键“start”模块，或者选择File，然后New>Other>TensorFlow Lite Mode
+
+3.选择已经下载的自定义的训练模型。本教程模型训练任务以后完成，这里选择finish模块中ml文件下的FlowerModel.tflite。
+
+4.最终TensorFlow Lite模型被成功导入，并生成摘要信息
+
 <img src="shotscreens\Tensorflow_Lite_Model.png" alt="Tensorflow_Lite_Model" style="zoom:50%;" />
 
-### 三、在真机(OPPO)上运行start模块后的识别花朵的结果
+#### 三、在真机(OPPO)上运行start模块后的识别花朵的结果
 
 dandelion:
 
