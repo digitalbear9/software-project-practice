@@ -1,5 +1,19 @@
 # 安装课程所需软件
 
+## 实验内容
+
+• 安装Android Studio 4.1以上的版本，更好的支持LiteRT
+
+• 安装Jupyter Notebook和相关的Python环境，后续用于
+
+机器学习模型构建
+
+• 安装Visual Studio Code代码编辑器
+
+• 探索上述软件的使用，将安装过程以Markdown语法描述，
+
+并上传至Github(或Gitee)
+
 #### 一、Android Studio安装
 
 ##### 1、初始安装Android Studio成果图
