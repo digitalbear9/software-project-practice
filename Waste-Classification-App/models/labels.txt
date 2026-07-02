@@ -1,7 +1,0 @@
-can
-food_box
-food_packaging
-fruit_peel
-paper
-paper_cup
-plastic_bottle
