@@ -36,19 +36,19 @@ Run：
 
 #### 任务二：实践Compose布局
 
-界面：
+微调界面（为Greeting 设置不同的背景色，使用Surface 包围 Text 可组合项，颜色采用MaterialTheme.colorScheme.primary）：
 
 <img src="shotscreens/image_3.png" alt="image_3" style="zoom:50%;" />
 
-修饰符：
+修饰符（为默认修饰符添加内边距修饰符：modifier.padding(24.dp)）：
 
 <img src="shotscreens/image_4.png" alt="image_4" style="zoom:50%;" />
 
-重复使用可组合项：
+重复使用可组合项（创建一个MyApp 的可组合项，该组合项中包含Greeting，在预览中，调用 MyApp 并移除预览的名称）：
 
 <img src="shotscreens/image_5.png" alt="image_5" style="zoom:50%;" />
 
-创建Compose中的列(Column) 和行(Row)：
+创建Compose中的列(Column) 和行(Row) （Column 中的每个子级都垂直放置）：
 
 <img src="shotscreens/image_6.png" alt="image_6" style="zoom:50%;" />
 
@@ -66,11 +66,11 @@ Compose和Kotlin：
 
 <img src="shotscreens/image_9.png" alt="image_9" style="zoom:50%;" />
 
-#### 添加按钮：
+添加按钮：
 
 <img src="shotscreens/image_10.png" alt="image_10" style="zoom:50%;" />
 
-Compose中的状态(State)：
+Compose中的状态(State) （向屏幕中添加一些互动）：
 
 预览：
 
