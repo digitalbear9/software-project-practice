@@ -1,5 +1,17 @@
 #                  TensorFlow花卉图片分类器模型训练
 
+## 实验内容
+
+• 了解机器学习基础
+
+• 了解TensorFlow和LiteRT
+
+• 按照教程完成基于TensorFlow的花卉模型生成
+
+• 使用实验四的应用验证生成的模型
+
+• 将上述完成的Jupyter Notebook在Github上进行共享
+
 ## 花卉图片分类器：Keras 训练并导出 TFLite
 
 TensorFlow Lite Model Maker由于依赖库与新版本的Python不兼容的问题，我们将方案转为用 TensorFlow/Keras 训练一个花卉图片分类模型，并把训练好的模型转换为 TensorFlow Lite 的 `.tflite` 文件。
@@ -8,9 +20,21 @@ TensorFlow Lite Model Maker由于依赖库与新版本的Python不兼容的问�
 
 #### 1、安装依赖
 
+建议使用 Python 3.10 或 3.11或更高版本。这个版本只需要 TensorFlow，不需要安装 `tflite-model-maker`。
+
+具体要求：
+
+tensorflow>=2.15
+matplotlib>=3.7
+numpy>=1.23
+
 <img src="shotscreens\dependencies.png" alt="dependencies" style="zoom:50%;" />
 
 #### 2、导入库并设置参数
+
+这里会导入训练、数据读取、模型转换需要的库。FLOWER_URL 是 TensorFlow 官方示例花卉数据集的下载地址。
+
+如果你不指定自己的图片目录，程序会自动下载这个数据集，并缓存到用户目录下的 Keras 数据集缓存位置，例如 Windows 上通常是 C:\Users\你的用户名\.keras\datasets\。
 
 ```python
 import tarfile
@@ -68,6 +92,12 @@ SEED = 123
 ```
 
 #### 3、读取并划分数据集
+
+load_flower_datasets 完成三件事：
+
+如果 DATA_DIR 是 None，自动下载并解压官方花卉数据集。
+使用 image_dataset_from_directory 按文件夹名生成分类标签。
+将数据划分为训练集、验证集和测试集，并开启缓存、打乱与预取，加快训练过程。
 
 
 ```python
@@ -152,6 +182,10 @@ print("类别名称:", class_names)
     类别名称: ['daisy', 'dandelion', 'roses', 'sunflowers', 'tulips']
 
 #### 4、构建并训练 Keras 模型
+
+这里使用迁移学习：底座模型是 ImageNet 预训练的 `MobileNetV2`，它已经学过很多通用图像特征。我们冻结底座模型，只训练最后新增的分类层。
+
+这样做的好处是训练速度快、需要的数据量少，也更适合后续转换为移动端可用的 TFLite 模型。
 
 ```python
 def build_model(num_classes, image_size, learning_rate):
@@ -271,6 +305,10 @@ print(f"test_loss={loss:.4f}, test_accuracy={accuracy:.4f}")
     test_loss=0.3363, test_accuracy=0.8949
 
 #### 5、转换为 TensorFlow Lite 模型
+
+训练完成后，先把 Keras 模型保存为 .keras 文件，再使用 tf.lite.TFLiteConverter.from_keras_model(model) 转换为 .tflite。
+
+本 notebook 默认使用动态范围量化 dynamic，通常可以减小模型体积，并且不需要额外准备复杂的校准数据。
 
 ```python
 def convert_to_tflite(model, quantization, representative_ds):
@@ -607,6 +645,10 @@ print(f"已保存标签文件: {labels_path}")
     已保存标签文件: exported_flower_model\labels.txt
 
 #### 6、简单测试导出的 TFLite 模型
+
+最后用 `tf.lite.Interpreter` 加载刚导出的 `.tflite` 文件，取几张测试图片做推理，确认模型文件可以正常运行。
+
+这里的 smoke test 不是完整评估，只是快速检查：模型能否加载、输入输出张量是否正常、预测流程是否能跑通。
 
 ```python
 def smoke_test_tflite(tflite_path, test_ds, class_names):
