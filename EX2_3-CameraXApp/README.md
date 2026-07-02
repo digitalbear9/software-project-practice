@@ -1,20 +1,67 @@
 # 构建Android CameraX应用
 
+## 实验目的
+
+• 掌 握 Android CameraX 拍 照 功 能 的 基 本 用 法 。 由 于
+
+CameraX是开发智能应用的必要组件，本次实验十分必要。
+
+• 掌握Android CameraX 视频捕捉功能的基本用法
+
+• 进一步熟悉Kotlin语言的特性
+
+## 实验内容：
+
+• CameraX是Android最新的支持开发相机应用的Jetpack
+
+库（API level 21以上）
+
+• 本实验将按照教程完成CameraX APP的构建
+
+• 要求上传代码至Github，并撰写详细的Readme文档。
+
+• 学习Android中布局的用法
+
+• Android硬件权限的获取
+
+• 掌握CameraX库的基本用法
+
+• Preview（预览）将摄像头画面实时显示到界面上。
+
+• ImageCapture（拍照）支持高质量静态图片捕捉。
+
+• VideoCapture（录像）用于录制视频。
+
+• （可选扩展）ImageAnalysis（图像分析）用于实时处理每一帧
+
+画面，比如做机器学习推理、二维码识别等
+
 #### 任务一：CameraX APP的构建
 
-1、初始项目布局
+1、初始项目布局效果图
+
+打开res/layout/activity_main.xml 的 activity_main 布局文件，并将其替换为教程中的代码。
+
+更新res/values/strings.xml 文件为教程中的代码
 
 <img src="shotscreens\image_1.png" alt="image_1" style="zoom:50%;" />
 
 2、应用程序请求使用摄像头和麦克风
 
+打开 AndroidManifest.xml，然后将教程中的代码行添加到 application 标记之前。添加 android.hardware.camera.any 可确保设备配有相机。指定 .any 表示它可以是前置摄像头 ，也可以是后置摄像头。然后，复制教程中的代码到MainActivity.kt. 中。
+
+
 <img src="shotscreens\image_2.png" alt="image_2" style="zoom:50%;" />
 
 3、相机预览
 
+定义一个配置，然后系统会使用该配置创建用例的实例。生成的实例就是绑定到 CameraX 生命周期的内容。填充之前的startCamera() 函数为教程中的代码
+
 <img src="shotscreens\image_3.png" alt="image_3" style="zoom:50%;" />
 
 4、实现拍照功能
+
+定义一个配置对象，该对象用于实例化实际用例对象。若要拍摄照片，需要实现 takePhoto() 方法，该方法会在用户按下 photo 按钮时调用。填充takePhoto() 方法的代码为教程中的代码
 
 <img src="shotscreens\image_4.png" alt="image_4" style="zoom:50%;" />
 
@@ -22,9 +69,16 @@
 
 5、实现ImageAnalysis用例
 
+将分析器ImageAnalysis添加为 MainActivity.kt 中的内部类。分析器会记录图像的平均亮度。替换实现 ImageAnalysis.Analyzer 接口的类中的 analyze 函数为教程中的代码。在类中实现 ImageAnalysis.Analyzer 接口后，只需在 ImageAnalysis中实例化一个 LuminosityAnalyzer 实例（与其他用例类似），并再次更新 startCamera() 函数为教程中的代码，然后调用 CameraX.bindToLifecycle() 即可
+
 <img src="shotscreens\image_6.png" alt="image_6" style="zoom:50%;" />
 
 6、实现VideoCapture用例
+
+1. 将教程中的代码复制到captureVideo() 方法：该方法可以控制 VideoCapture 用例的启动和停止。
+2. 在 startCamera() 中，将教程中的代码放置在 preview 创建行之后。这将创建 VideoCapture 用例。
+3. （可选）同样在 startCamera() 中，通过删除或注释掉教程中的代码来停用 imageCapture 和 imageAnalyzer 用例：
+4. 将 Preview + VideoCapture 用例绑定到生命周期相机。仍在 startCamera() 内，将 cameraProvider.bindToLifecycle() 调用替换为教程中的代码：
 
 <img src="shotscreens\image_7.png" alt="image_7" style="zoom:50%;" />
 
