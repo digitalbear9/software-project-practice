@@ -1,6 +1,45 @@
 # Jupyter Notebook基础教程
 
+## 实验目的
+
+• 进一步熟悉Python的语法
+
+• 熟悉Notebook开发的基本流程
+
+• 熟悉Python中常用库的用法
+
+## 实验内容
+
+• 安装Jupyter Notebook和相关的Python环境，
+
+建议采用Anaconda的安装方式。
+
+• 按照教程完成实验过程，主要包括几个方面：
+
+• 掌握Notebook工具的基本原理
+
+• 学习Python基本语法，完成相关功能
+
+• 完成Python数据分析的例子
+
+• 将上述完成的Jupyter Notebook在Github上进行
+
+共享。
+
 #### 1、Notebook基本概念
+
+• 熟悉Notebook的快捷键
+
+• 掌握Notebook中Cell的两种模式（Edit和Command）
+
+• 理解Notebook中Kernel的概念
+
+cell：
+
+主要包含两种类型的cell：
+
+- 代码cell：包含可被kernel执行的代码，执行之后在下方显示输出。
+- Markdown cell：书写Markdown标记语言的cell。
 
 
 ```python
@@ -9,12 +48,16 @@ print('Hello World!')
 
     Hello World!
 
-
+上面代码执行之后，cell左侧的标签从`In [ ]` 变成了 `In [1]`。`In`代表输入，`[]`中的数字代表kernel执行的顺序，而`In [*]`则表示代码cell正在执行代码。以下例子显示了短暂的`In [*]`过程。
 
 ```python
 import time
 time.sleep(3)
 ```
+
+Kernel：
+
+每个notebook都基于一个内核运行，当执行cell代码时，代码将在内核当中运行，运行的结果会显示在页面上。Kernel中运行的状态在整个文档中是延续的，可以跨越所有的cell。这意思着在一个Notebook某个cell定义的函数或者变量等，在其他cell也可以使用。例如：
 
 
 ```python
@@ -22,6 +65,8 @@ import numpy as np
 def square(x):
     return x * x
 ```
+
+执行上述代码cell之后，后续cell可以使用`np`和`square`
 
 
 ```python
@@ -35,6 +80,14 @@ print('%d squared is %d' % (x, y))
 
 
 #### 2、熟悉基本的Python语法
+
+• 掌握Python基本语法并编写选择排序算法
+
+• 定义selection_sort函数执行选择排序功能。
+
+• 定 义 test 函数进行测试 ， 执行数据输入 ， 并 调 用
+
+selection_sort函数进行排序，最后输出结果。
 
 
 ```python
@@ -83,7 +136,27 @@ test()
 
 #### 3、数据分析
 
+• 使用Pandas库对数据集（财富500强排名）进行分析
+
+• Pandas是一种高效、强大、灵活且易于使用的开源数据分析和操作工具，
+
+它建立在Python之上
+
+• 数据操作包括数据显示、检查数据列属性、数据过滤、属性查询等
+
+• 实验将完成删除“利润”列包含异常值的数据行
+
+• 使用Matplotlib进行数据图形的绘制
+
+• Matplotlib 是一个综合库，用于在 Python 中创建静态、动画和交互式可
+
+视化。
+
+• 基础实验将利润和收入分别绘制，请完成一张图同时画利润和收入。
+
 ##### 设置：
+
+导入相关的工具库：
 
 
 ```python
@@ -92,6 +165,8 @@ import pandas as pd
 import matplotlib.pyplot as plt
 import seaborn as sns
 ```
+
+加载数据集
 
 
 ```python
@@ -258,12 +333,14 @@ df.tail()
 </table>
 </div>
 
-
+对数据属性列进行重命名，以便在后续访问:
 
 
 ```python
 df.columns = ['year', 'rank', 'company', 'revenue', 'profit']
 ```
+
+检查数据条目是否加载完整:
 
 
 ```python
@@ -275,7 +352,7 @@ len(df)
 
     25500
 
-
+检查属性列的类型
 
 
 ```python
@@ -292,7 +369,7 @@ df.dtypes
     profit      object
     dtype: object
 
-
+其他属性列都正常，但是对于profit属性，期望的结果是float类型，因此其可能包含非数字的值，利用正则表达式进行检查。
 
 
 ```python
@@ -317,6 +394,7 @@ df.loc[non_numberic_profits].head()
         text-align: right;
     }
 </style>
+
 <table border="1" class="dataframe">
   <thead>
     <tr style="text-align: right;">
@@ -373,7 +451,7 @@ df.loc[non_numberic_profits].head()
 </table>
 </div>
 
-
+确实存在这样的记录，profit这一列为字符串，统计一下到底存在多少条这样的记录。
 
 
 ```python
@@ -385,7 +463,7 @@ len(df.profit[non_numberic_profits])
 
     369
 
-
+使用直方图显示一下按照年份的分布情况
 
 
 ```python
@@ -396,12 +474,14 @@ bin_sizes, _, _ = plt.hist(df.year[non_numberic_profits], bins=range(1955, 2006)
 <img src="shotscreens\output_1.png" alt="output_1"  />
 ​    
 
-
+可见，单独年份这样的记录数都少于25条，即少于4%的比例。这在可以接受的范围内，因此删除这些记录。
 
 ```python
 df = df.loc[~non_numberic_profits]
 df.profit = df.profit.apply(pd.to_numeric)
 ```
+
+再次检查数据记录的条目数
 
 
 ```python
@@ -434,6 +514,8 @@ df.dtypes
 
 #### 4、数据图形绘制
 
+以年分组绘制平均利润和收入:
+
 
 ```python
 group_by_year = df.loc[:, ['year', 'revenue', 'profit']].groupby('year')
@@ -456,7 +538,7 @@ plot(x, y1, ax, 'Increase in mean Fortune 500 company profits from 1955 to 2005'
 <img src="shotscreens\output_2.png" alt="output_2"  />
     
 
-
+收入曲线:
 
 ```python
 y2 = avgs.revenue
@@ -467,7 +549,7 @@ plot(x, y2, ax, 'Increase in mean Fortune 500 company revenues from 1955 to 2005
 <img src="shotscreens\output_3.png" alt="output_3"  />
     
 
-
+对数据结果进行标准差处理:
 
 ```python
 def plot_with_std(x, y, stds, ax, title, y_label):
@@ -486,7 +568,7 @@ fig.tight_layout()
 <img src="shotscreens\output_4.png" alt="output_4"  />
     
 
-
+一张图同时画利润和收入:
 
 ```python
 fig, ax1 = plt.subplots(figsize=(8, 5))
