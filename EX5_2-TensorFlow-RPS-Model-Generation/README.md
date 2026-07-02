@@ -425,7 +425,7 @@ plt.figure()
 plt.show()
 ```
 
-![output_5_0](E:\GitHubProjects\software-project-practice\EX5_2-TensorFlow-RPS-Model-Generation\shotscreens\output_5_0.png)
+<img src="shotscreens\output_5_0.png" alt="output_5_0" style="zoom:80%;" />
 
 ```
 <Figure size 640x480 with 0 Axes>
