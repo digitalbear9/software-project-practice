@@ -74,20 +74,22 @@ EX_Final-Waste-Classification-App/
 
 一、首页
 
-<img src="shotscreens\首页.jpg" alt="首页" style="zoom: 25%;" />
+<p align="center">
+  <img src="shotscreens/首页.jpg" alt="首页" width="260" />
+</p>
 
 二、识别
 
-<img src="shotscreens\识别.jpg" alt="识别" style="zoom:25%;" />
+<p align="center">  <img src="shotscreens/识别.jpg" alt="识别" width="260" /></p>
 
 三、学习中心
 
-<img src="shotscreens\学习中心.jpg" alt="学习中心" style="zoom:25%;" />
+<p align="center">  <img src="shotscreens/学习中心.jpg" alt="学习中心" width="260" /></p>
 
 四、模型中心
 
-<img src="shotscreens\模型中心.jpg" alt="模型中心" style="zoom:25%;" />
+<p align="center">  <img src="shotscreens/模型中心.jpg" alt="模型中心" width="260" /></p>
 
 五、我的
 
-<img src="shotscreens\我的.jpg" alt="我的" style="zoom:25%;" />
+<p align="center">  <img src="shotscreens/我的.jpg" alt="我的" width="260" /></p>
