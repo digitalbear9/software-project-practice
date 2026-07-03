@@ -26,49 +26,49 @@
 
 **2026.4.25**    实验1_安装相关软件：安装课程所需软件：EX1-Software-Installation
 
-![EX1_1](shotscreens\EX1_1.png)
+<img src="shotscreens\EX1_1.png" alt="EX1_1"  />
 
-![EX1_2](shotscreens\EX1_2.png)
+<img src="shotscreens\EX1_2.png" alt="EX1_2"  />
 
 **2026.5.7**    实验2_1_Kotlin基本语法及实验：EX2_1-Kotlin-Basic-Syntax
 
-![EX2_1_1](shotscreens\EX2_1_1.png)
+<img src="shotscreens\EX2_1_1.png" alt="EX2_1_1"  />
 
-![EX2_1_2](shotscreens\EX2_1_2.png)
+<img src="shotscreens\EX2_1_2.png" alt="EX2_1_2"  />
 
 **2026.5.7**    实验2_2_构建Kotlin应用并使用Compose布局EX2_2-Build-Kotlin-App-With-Compose
 
-![EX2_2_1](shotscreens\EX2_2_1.png)
+<img src="shotscreens\EX2_2_1.png" alt="EX2_2_1"  />
 
-![EX2_2_2](shotscreens\EX2_2_2.png)
+<img src="shotscreens\EX2_2_2.png" alt="EX2_2_2"  />
 
 **2026.5.18**    实验2_3_构建CameraX应用EX2_3-CameraXApp
 
-![EX2_3_1](shotscreens\EX2_3_1.png)
+<img src="shotscreens\EX2_3_1.png" alt="EX2_3_1"  />
 
-![EX2_3_2](shotscreens\EX2_3_2.png)
+<img src="shotscreens\EX2_3_2.png" alt="EX2_3_2"  />
 
 **2026.5.24**    实验3_Notebook基础实践EX3-Jupyter-Notebook-Practice
 
-![EX3_1](shotscreens\EX3_1.png)
+<img src="shotscreens\EX3_1.png" alt="EX3_1"  />
 
-![EX3_2](shotscreens\EX3_2.png)
+<img src="shotscreens\EX3_2.png" alt="EX3_2"  />
 
 **2026.5.31**    实验4_实现智能图像分类APPEX4-TFLClassify-main
 
-![EX4_1](shotscreens\EX4_1.png)
+<img src="shotscreens\EX4_1.png" alt="EX4_1"  />
 
-![EX4_2](shotscreens\EX4_2.png)
+<img src="shotscreens\EX4_2.png" alt="EX4_2"  />
 
 **2026.6.10**    实验5_1_TensorFlow模型生成EX5_1-TensorFlow-Model-Training
 
-![EX5_1_1](shotscreens\EX5_1_1.png)
+<img src="shotscreens\EX5_1_1.png" alt="EX5_1_1"  />
 
-![EX5_1_2](shotscreens\EX5_1_2.png)
+<img src="shotscreens\EX5_1_2.png" alt="EX5_1_2"  />
 
 **2026.6.14**    实验5_2_TensorFlow石头剪刀布手势模型生成EX5_2-TensorFlow-RPS-Model-Generation
 
-![EX5_2_1](shotscreens\EX5_2_1.png)
+<img src="shotscreens\EX5_2_1.png" alt="EX5_2_1"  />
 
-![EX5_2_2](shotscreens\EX5_2_2.png)
+<img src="shotscreens\EX5_2_2.png" alt="EX5_2_2"  />
 
